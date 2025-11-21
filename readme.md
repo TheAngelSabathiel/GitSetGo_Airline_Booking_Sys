@@ -28,18 +28,19 @@
 10. [Appendices](#12-appendices)
 
 ## 3. Introduction
-**3.1 Purpose**: 
-
+### 3.1 Purpose:
+  
 The fundamental purpose of this Technical Specifications Document (TSD) is to establish the definitive technical blueprint for the Parallox Airline Booking and Management System (P-ABMS). This document specifies the complete functional and non-functional requirements to guide the development team. The P-ABMS must be implemented on the specified MEAN/MERN stack (MongoDB, Express.js, Node.js, and Vue/React) to create a modern, scalable, and efficient platform supporting Parallox Airline's strategy for direct customer distribution and operational efficiency.
 
-**Scope**:  
+### 3.2 Scope:
   
 The scope of the P-ABMS is defined by the Customer-Facing Booking Portal and the Internal Administration Platform, with all data operations mapped directly to the provided Entity-Relationship Diagram (ERD).
 
 **In-Scope Functionality (WILL DO)**:
-1. Customer Transactional Core: End-to-end management of the booking lifecycle, including flight search based on Airports.iataCode and date. The system handles the creation of the Booking document, linking it to Customers, FlightSchedules, and FareClasses. It includes processing Payments via an external gateway and managing AncillaryServices purchases.
-2. Inventory Management: Real-time synchronization and tracking of seat availability for every flight instance via the FlightSeats collection, with strict consistency checks on the isAvailable status.
-3. Administrative CRUD: Provision of an interface for authorized users to perform CRUD (Create, Read, Update, Delete) operations on core master data collections, including FlightSchedules, Aircrafts, Airports, and FareClasses.
+1. **Customer Transactional Core:** End-to-end management of the booking lifecycle, including flight search based on Airports.iataCode and date. The system handles the creation of the Booking document, linking it to Customers, FlightSchedules, and FareClasses. It includes processing Payments via an external gateway and managing AncillaryServices purchases.
+2. **Inventory Management:** Real-time synchronization and tracking of seat availability for every flight instance via the FlightSeats collection, with strict consistency checks on the isAvailable status.
+3. **Administrative CRUD:** Provision of an interface for authorized users to perform CRUD (Create, Read, Update, Delete) operations on core master data collections, including FlightSchedules, Aircrafts, Airports, and FareClasses.
+
 
 - **Definitions, Acronyms, and Abbreviations**: List any terms or acronyms used.
 - **References**: List any documents or sources referenced.
