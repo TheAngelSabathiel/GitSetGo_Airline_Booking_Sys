@@ -160,19 +160,25 @@ A reliable email service API (SMTP or cloud-based provider) is required to send 
 
 The design screenshots include the following pages:
 
-- Landing / Home
-- Login / Sign-up
-- Search Results
-- Flight Selection / Details
-- Book a Flight
-- Booking Confirmation
-- My Bookings
-- User Profile / Account
+1. Landing / Home
+2. Client Pages
+  2.1 Login Page
+  2.2 Account Overview Page
+3. Booking Pages
+  3.1 Manage Booking Page
+  3.2 Flight Information Page
+  3.3 Passenger Info Page
+  3.4 Seat and Payment Page
+  3.5 Final Customer Details
+  3.6 Confirmation Page
+  3.x Trip Summary Page
+4. About Page
+5. Help and FAQs Page
 
 **Links:**
 
-- [Click to see the Mobile View Mockup](screenshots/)  
-- [Click to see the Desktop View Mockup](screenshots/)  
+- [Click to see the Mobile View Mockup](./mockups/mobileView/)  
+- [Click to see the Desktop View Mockup](./mockups/desktopView/)  
 
 ---
 
