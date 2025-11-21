@@ -7,13 +7,13 @@
 - **Date**: November 21, 2025
 - **Author(s)**: 
 
-  1. Rick San Mateo
-  2. Leigh Tamayo
-  3. Roldan Estobio
-  4. Jan Michael Agapay
-  5. Janel Bianca San Jose
-  6. Pedro Jose Siapuatco
-  7. Jomari Angel Jacinto
+  1. Agapay, Jan Michael 
+  2. Estobio, Roldan
+  3. Jacinto, Jomari Angel
+  4. San Jose, Janel Biance
+  5. San Mateo, Rick
+  6. Siapuatco, Pedro Jose
+  7. Tamayo, Leigh
 
 ## 2. Table of Contents
 1. [Introduction](#3-introduction)
@@ -162,16 +162,16 @@ The design screenshots include the following pages:
 
 a. Landing / Home  
 b. Client Pages  
-&nbsp;b.1 Login Page  
-&nbsp;b.2 Account Overview Page  
+&nbsp;&nbsp;&nbsp;b.1 Login Page  
+&nbsp;&nbsp;&nbsp;b.2 Account Overview Page  
 c. Booking Pages  
-&nbsp;c.1 Manage Booking Page  
-&nbsp;c.2 Flight Information Page  
-&nbsp;c.3 Passenger Info Page  
-&nbsp;c.4 Seat and Payment Page  
-&nbsp;c.5 Final Customer Details  
-&nbsp;c.6 Confirmation Page  
-&nbsp;c.x Trip Summary Page  
+&nbsp;&nbsp;&nbsp;c.1 Manage Booking Page  
+&nbsp;&nbsp;&nbsp;c.2 Flight Information Page  
+&nbsp;&nbsp;&nbsp;c.3 Passenger Info Page  
+&nbsp;&nbsp;&nbsp;c.4 Seat and Payment Page  
+&nbsp;&nbsp;&nbsp;c.5 Final Customer Details  
+&nbsp;&nbsp;&nbsp;c.6 Confirmation Page  
+&nbsp;&nbsp;&nbsp;c.x Trip Summary Page  
 d. About Page  
 e. Help and FAQs Page  
 
