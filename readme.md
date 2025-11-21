@@ -359,17 +359,116 @@ If the bulk insert fails, the `FlightSchedules` creation is rolled back to maint
 
 
 ## 8. Non-Functional Requirements
-- **Performance**: Describe performance requirements.
-- **Security**: Outline security needs.
-- **Usability**: Detail user interface and experience considerations.
-- **Reliability**: Define reliability and availability requirements.
-- **Supportability**: Specify maintenance and support requirements.
+### 8.1 Performance
+
+Performance requirements focus on handling high traffic efficiently, leveraging Node.js async behavior and MongoDB indexing.
+
+| **Requirement ID** | **Description** | **Metric** | **Target** |
+|-------------------|----------------|------------|------------|
+| **NFR-P01** | Flight Search Latency | Time from request to response for `/api/flights/search` | 95th percentile < 500 ms |
+| **NFR-P02** | Booking Transaction Throughput | Number of successful bookings (PNR creation) per second | ≥ 50 transactions/sec |
+| **NFR-P03** | API Response Time | Response time for all authenticated CRUD operations (e.g., Admin updates) | Average < 200 ms |
+| **NFR-P04** | Concurrency | Maximum concurrent users without performance degradation (>500 ms latency) | 5,000 concurrent active users |
+
+---
+
+### 8.2 Security
+
+Focuses on protecting customer data, securing API endpoints, and compliance with payment industry standards.
+
+| **Requirement ID** | **Description** | **Enforcement Mechanism / Standard** |
+|-------------------|----------------|-------------------------------------|
+| **NFR-S01** | User Data Protection | Store all sensitive customer passwords using one-way hashing | bcrypt, salt factor ≥ 12 |
+| **NFR-S02** | API Authentication | All non-public endpoints require a valid JWT | Express Middleware enforcing JWT validation and RBAC |
+| **NFR-S03** | Input Sanitization | Sanitize all queries, params, and body inputs to prevent injection | Libraries like `express-mongo-sanitize` for NoSQL Injection prevention |
+| **NFR-S04** | Payment Compliance | Do not store raw card data (PCI DSS scope reduction) | Use tokenization via Payment Gateway; only store `Payments.transactionRef` |
+| **NFR-S05** | SSL/TLS Enforcement | Encrypt all client-API communications | Enforce TLS 1.2+ for all connections |
+
+---
+
+### 8.3 Usability (User Interface & Experience)
+
+Ensures the system is intuitive and accessible for customers and administrators.
+
+| **Requirement ID** | **Description** | **Scope / Metric** |
+|-------------------|----------------|------------------|
+| **NFR-U01** | Interface Consistency | UI/UX design adheres to a single design system (Bootstrap/Material UI) | 100% compliance across pages/modules |
+| **NFR-U02** | Accessibility | Public booking portal meets accessibility standards | WCAG 2.1 Level AA |
+| **NFR-U03** | Error Clarity | Display clear, actionable messages for all validation/system errors | >90% of errors self-explanatory |
+| **NFR-U04** | Mobile Responsiveness | Booking portal functions and displays correctly on standard mobile devices | Fully responsive down to 360px viewport width |
+
+---
+
+### 8.4 Reliability and Availability
+
+Ensures P-ABMS remains operational and recovers quickly from failures.
+
+| **Requirement ID** | **Description** | **Metric / Target** |
+|-------------------|----------------|------------------|
+| **NFR-R01** | System Availability | Percent time system is operational | 99.9% uptime (~8.7 hrs downtime/year) |
+| **NFR-R02** | Mean Time to Recover (MTTR) | Average time to restore service after outage | < 30 minutes |
+| **NFR-R03** | Data Integrity (Concurrency) | Guarantee consistency of critical data (FlightSeats) during concurrent updates | 100% transactional integrity (no double-bookings) |
+| **NFR-R04** | Disaster Recovery | Restore entire MongoDB database from backup in separate region | RPO < 1 hour |
+
+---
+
+### 8.5 Supportability (Maintainability & Operation) 🛠️
+
+Focuses on ease of updating, debugging, and maintaining the system over its lifecycle.
+
+| **Requirement ID** | **Description** | **Focus Area / Requirement** |
+|-------------------|----------------|----------------------------|
+| **NFR-M01** | Code Maintainability | Backend (Node.js/Express.js) | Follow ESLint standards; document complex functions with JSDoc |
+| **NFR-M02** | Centralized Logging | Operations & Monitoring | Log all API requests, errors, and warnings to a centralized, searchable system (e.g., ELK stack) |
+| **NFR-M03** | Configuration Management | Deployment | All environment-specific variables (API keys, DB URI, JWT secret) must be configurable via environment variables, not hardcoded |
+| **NFR-M04** | Monitoring & Health Checks | System Status | Expose unauthenticated health check endpoints (`/health/live`, `/health/ready`) for load balancers and monitoring tools |
+
 
 ## 9. Data Requirements
-- **Data Models**: Include simple diagrams if possible.
-- **Database Requirements**: Describe tables and relationships.
-- **Data Storage and Retrieval**: Explain how data will be stored and accessed.
-- **ERD**: Add the ERD for the database models based on Specifications.
+## 9.1 Data Models: Conceptual Overview
+
+The **P-ABMS** utilizes a document-based NoSQL model (**MongoDB**), managing relationships primarily through references (`_id` fields) rather than strict joins. This approach optimizes read performance and horizontal scalability.
+
+- **Core Entities:** `Customers`, `Bookings`, `FlightSchedules`, `Aircrafts`, `Airports`  
+- **Transactional Entities:** `FlightSeats`, `Payments`, `AncillaryServices`  
+
+This document-centric model contrasts with traditional relational (table-based) models but allows for flexible schemas and efficient storage of complex objects (e.g., a full `Booking` record containing passenger details).
+
+---
+
+## 9.2 Database Requirements (MongoDB Collections and Relationships)
+
+The logical design is implemented via **MongoDB collections**. Relationships are established using 1-to-N references (storing the ID of the "one" side on the "many" side).
+
+| **Collection** | **Description** | **Key Relationships (References)** |
+|----------------|----------------|----------------------------------|
+| **Customers** | Stores user profiles and authentication hashes (`passwordHash`). | 1:N to `Bookings` (via `customerId`) |
+| **Airports** | Master data for all served airports; indexed by `iataCode`. | 1:N to `FlightSchedules` (via `departureAirportId`, `arrivalAirportId`) |
+| **Aircrafts** | Master data for aircraft types and seat configurations (`capacityEconomy`, `capacityBusiness`). | 1:N to `FlightSchedules` (via `aircraftId`) |
+| **FlightSchedules** | Stores scheduled flight instances (date, time, aircraft, route). | 1:N to `FlightSeats` (via `flightScheduleId`) |
+| **FlightSeats** | Atomic unit of inventory; tracks availability (`isAvailable`) and location (`seatNumber`). | 1:1 to a confirmed `Booking` (once booked) |
+| **Bookings** | Core transactional record (PNR); stores passenger details and overall status. | N:1 to `Customers`, N:1 to `FlightSchedules`, 1:1 to `Payments` |
+| **Payments** | Audit trail for payment transactions; stores external gateway reference (`transactionRef`) and final status. | N:1 to `Bookings` |
+| **AncillaryServices** | Stores bookable extras (meals, luggage). | N:N to `Bookings` (via embedded array or linking collection) |
+
+---
+
+## 9.3 Data Storage and Retrieval
+
+### Storage Strategy: Document Embedding vs. Referencing
+- **Referencing (Normalization):** Used for large, frequently updated, or master data entities (`FlightSchedules`, `Customers`). The system stores the `_id` and performs lookups at the application layer.  
+- **Embedding (Denormalization):** Used for stable or frequently read data that is intrinsically part of the parent document (e.g., small passenger lists or ancillary selections inside the `Bookings` document). This reduces the number of queries needed.
+
+### Retrieval Strategy: Indexing for Performance
+- **Primary Indexes:** `_id` field is indexed automatically.  
+- **Search Indexes:** Compound indexes on `FlightSchedules` for flight search:  
+  *```json
+  { "departureAirportId": 1, "arrivalAirportId": 1, "departureTime": 1 }*
+- **Transactional Indexes:**  
+  Unique indexes on `Bookings.bookingReference` (PNR) to ensure fast lookup and enforce uniqueness (supports FEAT-007).
+- **Security Indexes:**  
+  Index on `Customers.email` to guarantee uniqueness and accelerate login validation (Use Case 2).
+
 
 ## 10. External Interface Requirements
 - **User Interfaces**: Provide sketches or descriptions of the user interface.
