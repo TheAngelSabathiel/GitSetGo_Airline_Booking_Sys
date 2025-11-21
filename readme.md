@@ -41,9 +41,25 @@ The scope of the P-ABMS is defined by the Customer-Facing Booking Portal and the
 2. **Inventory Management:** Real-time synchronization and tracking of seat availability for every flight instance via the FlightSeats collection, with strict consistency checks on the isAvailable status.
 3. **Administrative CRUD:** Provision of an interface for authorized users to perform CRUD (Create, Read, Update, Delete) operations on core master data collections, including FlightSchedules, Aircrafts, Airports, and FareClasses.
 
+**Out-of-Scope Functionality (WILL NOT DO)**:
+1. **Legacy Systems Integration:** The system will not integrate with external Global Distribution Systems (GDS) or Departure Control Systems (DCS).
+2. **Operational Logging:** No storage or management of operational data such as crew duty rosters, aircraft maintenance, or fuel planning logs.
+3. **Financial & Accounting:** No complex financial modeling, revenue management, or general ledger (GL) integration. The Payments collection is strictly for transaction audit reference (storing the external transactionRef).
 
 - **Definitions, Acronyms, and Abbreviations**: List any terms or acronyms used.
 - **References**: List any documents or sources referenced.
+
+### 3.3 Definitions, Acronyms, and Abbreviations:
+
+| Term/Acronym | Definition |
+|--------------|------------|
+| P-ABMS | Parallox Airline Booking and Management System. |
+| TSD | Technical Specifications Document. |
+| MEAN/MERN Stack | The required architecture: MongoDB (Database), Express.js (Backend Framework), Node.js (Runtime Environment), and Vue/React (Frontend Frameworks). |
+| PNR | **Passenger Name Record** — the unique booking identifier and itinerary reference (represented in the system by the *Bookings* collection). |
+| NoSQL | Non-relational database architecture (MongoDB), known for its document-based flexible schema and horizontal scalability. |
+| CRUD | Create, Read, Update, Delete — the fundamental database operations. |
+| IATA Code | International Air Transport Association three-letter airport code. |
 
 ## 4. Overall Description
 - **Product Perspective**: Describe how this application fits into a larger system or context.
