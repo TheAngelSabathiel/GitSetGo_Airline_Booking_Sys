@@ -1,43 +1,83 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Booking Confirmation</title>
-		<!-- Bootstrap CSS Dependency -->
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Booking Confirmation</title>
+        <!-- Bootstrap CSS Dependency -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
-		<!-- Google Fonts: Karla and Montserrat -->
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <!-- Google Fonts: Karla and Montserrat -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-		<!-- External CSS Link -->
-		<link rel="stylesheet" type="text/css" href="./index.css">
+        <!-- External CSS Link -->
+        <link rel="stylesheet" type="text/css" href="./index.css">
 
-		<!-- Favicon -->
-		<link rel="icon" type="image/x-icon" href="./images/icon_black.png">
+        <!-- Favicon -->
+        <link rel="icon" type="image/x-icon" href="./images/icon_black.png">
 
-	</head>
-	<body>
+    </head>
+    <body>
 
-		<!-- Navbar Section -->
-		<div>
-			
-		</div>
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="nav-left">
+            <img src="./images/icon_white.png" class="nav-logo">
+            <nav class="nav-links">
+                <a href="#">Manage Booking</a>
+                <a href="#">Flight Information</a>
+                <a href="#">About Us</a>
+            </nav>
+        </div>
 
-		<!-- Booking Confirmation Section -->
-		<div>
-			
-		</div>
+        <div class="nav-right">
+            <a href="#" class="nav-text">PHP</a>
+            <a href="#" class="nav-text">English</a>
+            <a href="#" class="btn-login">Log In</a>
+            <a href="#" class="btn-signup">Sign Up</a>
+        </div>
+    </header>
 
-		<!-- Footer Section -->
-		<div>
-			
-		</div>
+    <!-- CONFIRMATION HERO -->
+    <section class="confirm-section">
+        <div class="confirm-card">
+            <img src="./images/icon_white2.png" class="confirm-logo" alt="confirm-logo">
 
+            <p class="msg">
+                Your payment has been successfully processed<br>
+                Check the <span>wallet section</span> from your profile to see all available tickets
+            </p>
 
-		<!-- Bootstrap JS Dependency -->
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-	</body>
+            <p class="small">
+                We will notify you two days before departure to prepare.<br>
+                Until then, pack your bags and get ready for your trip
+            </p>
+
+            <p class="ticket-id"><span>ID: XQ9-47F2-LL18-203B</span></p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-left">
+            <p>Connect With Us:</p>
+            <div class="socials">
+                <img src="./images/fb.png">
+                <img src="./images/tiktok.png">
+                <img src="./images/x.png">
+                <img src="./images/ig.png">
+                <img src="./images/linkedin.png">
+                <img src="./images/yt.png">
+            </div>
+        </div>
+
+        <div class="footer-right">
+            Copyright: Parallox Airlines Limited
+        </div>
+    </footer>
+
+</body>
+
 </html>

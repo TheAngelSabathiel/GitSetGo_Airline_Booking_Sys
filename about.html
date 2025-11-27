@@ -1,58 +1,170 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>About Us</title>
-		<!-- Bootstrap CSS Dependency -->
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>About Us | Parallox Airlines</title>
 
-		<!-- Google Fonts: Karla and Montserrat -->
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+	<!-- Bootstrap -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
-		<!-- External CSS Link -->
-		<link rel="stylesheet" type="text/css" href="./index.css">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css2?family=Karla:wght@300;400;600;700&family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
-		<!-- Favicon -->
-		<link rel="icon" type="image/x-icon" href="./images/icon_black.png">
+	<!-- External CSS -->
+	<link rel="stylesheet" type="text/css" href="./index.css">
+</head>
 
-	</head>
-	<body>
+<body>
 
-		<!-- Navbar Section -->
-		<div>
-			
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
+	<div class="container">
+		<a class="navbar-brand d-flex align-items-center" href="#">
+			<img src="./images/icon_white.png" width="40" class="me-2">
+			<span class="fw-bold">Parallox</span>
+		</a>
+
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarMenu">
+			<ul class="navbar-nav me-auto ms-lg-3">
+				<li class="nav-item"><a class="nav-link" href="#">Manage Booking</a></li>
+				<li class="nav-item"><a class="nav-link" href="#">Flight Information</a></li>
+				<li class="nav-item"><a class="nav-link active" href="#">About Us</a></li>
+			</ul>
+
+			<div class="d-flex gap-2 mt-3 mt-lg-0">
+				<button class="btn btn-outline-light w-100 w-lg-auto">Log In</button>
+				<button class="btn btn-info text-white w-100 w-lg-auto">Sign Up</button>
+			</div>
+		</div>
+	</div>
+</nav>
+
+<!-- ================= HERO SECTION ================= -->
+<section class="hero-section position-relative text-center text-white">
+	<img src="./images/Airline-deregulation.jpg" class="img-fluid">
+	<div class="hero-content">
+		<h1>About Parallox Airlines</h1>
+		<p>Connecting the world, one flight at a time</p>
+		<button class="btn btn-danger px-4 py-2">Learn More</button>
+	</div>
+</section>
+
+<!-- ================= OUR JOURNEY ================= -->
+<section class="container my-5 pt-4">
+	<div class="row align-items-center gy-4">
+		<div class="col-md-6">
+			<img src="./images/journey.jfif" class="img-fluid rounded">
+		</div>
+		<div class="col-md-6">
+			<h2 class="fw-bold mb-3">Our Journey</h2>
+			<p>
+				Founded in 2001, Parallox Airlines began with a simple mission —
+				to make air travel seamless, affordable, and globally accessible.
+			</p>
+			<p>
+				Today we connect millions of travelers across more than 90 destinations,
+				always prioritizing comfort, safety, and customer care.
+			</p>
+		</div>
+	</div>
+</section>
+
+<!-- ================= OUR VALUES ================= -->
+<section class="py-5 values-section">
+	<div class="container text-center text-white">
+		<h2 class="fw-bold mb-4">Our Values</h2>
+
+		<div class="row g-4 mt-3">
+			<div class="col-12 col-sm-6 col-lg-3">
+				<div class="value-card p-4">
+					<img src="./images/safety.png" width="55" class="mb-3">
+					<h5 class="fw-bold">Safety First</h5>
+					<p>Your safety is our top priority in every flight.</p>
+				</div>
+			</div>
+
+			<div class="col-12 col-sm-6 col-lg-3">
+				<div class="value-card p-4">
+					<img src="./images/Ccare.png" width="55" class="mb-3">
+					<h5 class="fw-bold">Customer Care</h5>
+					<p>With 24/7 assistance, your journey matters.</p>
+				</div>
+			</div>
+
+			<div class="col-12 col-sm-6 col-lg-3">
+				<div class="value-card p-4">
+					<img src="./images/sustainability.png" width="55" class="mb-3">
+					<h5 class="fw-bold">Sustainability</h5>
+					<p>Committed to eco-friendly operations.</p>
+				</div>
+			</div>
+
+			<div class="col-12 col-sm-6 col-lg-3">
+				<div class="value-card p-4">
+					<img src="./images/innovation.png" width="55" class="mb-3">
+					<h5 class="fw-bold">Innovation</h5>
+					<p>Continuously improving the flying experience.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ================= OUR TEAM ================= -->
+<section class="container my-5">
+	<h2 class="fw-bold text-center mb-4">Our Team</h2>
+
+	<div class="row g-4">
+		<div class="col-12 col-md-4">
+			<div class="card shadow-sm team-card">
+				<img src="./images/Johncarter.jfif" class="team-img">
+				<div class="card-body text-center">
+					<h5 class="fw-bold text-dark">John Carter</h5>
+					<p class="team-title"> <span>Pilot</span> | 15 years of aviation excellence.</p>
+				</div>
+			</div>
 		</div>
 
-		<!-- About Parallox Section -->
-		<div>
-			
+		<div class="col-12 col-md-4">
+			<div class="card shadow-sm team-card">
+				<img src="./images/Michaeltorres.jfif" class="team-img">
+				<div class="card-body text-center">
+					<h5 class="fw-bold text-dark">Michael Torres</h5>
+					<p class="team-title"> <span>Flight Crew Lead</span> | Ensuring seamless journeys.</p>
+				</div>
+			</div>
 		</div>
 
-		<!-- Our Journery Section -->
-		<div>
-			
+		<div class="col-12 col-md-4">
+			<div class="card shadow-sm team-card ">
+				<img src="./images/Sarahkim.jfif" class="team-img">
+				<div class="card-body text-center">
+					<h5 class="fw-bold text-dark">Sarah Kim</h5>
+					<p class="team-title"> <span>Cabin Manager</span> | Making every flight memorable.</p>
+				</div>
+			</div>
 		</div>
+	</div>
+</section>
 
-		<!-- Our Values Section -->
-		<div>
-			
-		</div>
+<!-- ================= FOOTER ================= -->
+<footer class="bg-dark text-white py-3 text-center small">
+	<div>Connect With Us:</div>
+	<div class="d-flex justify-content-center gap-3 my-2">
+		<i class="bi bi-facebook"></i>
+		<i class="bi bi-instagram"></i>
+		<i class="bi bi-twitter"></i>
+		<i class="bi bi-youtube"></i>
+	</div>
+	<div>© Parallox Airlines Limited</div>
+</footer>
 
-		<!-- Our Team Section -->
-		<div>
-			
-		</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
-		<!-- Footer Section -->
-		<div>
-			
-		</div>
-
-
-		<!-- Bootstrap JS Dependency -->
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-	</body>
+</body>
 </html>
