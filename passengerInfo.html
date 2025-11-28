@@ -1,53 +1,450 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Passenger Info</title>
-		<!-- Bootstrap CSS Dependency -->
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passenger Details - Parallox Airlines</title>
+    <!-- Load Tailwind CSS from CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom Tailwind Configuration (using JIT/PostCSS features for custom colors) */
+        .header-bg {
+            background-color: #0b222f;
+        }
+        .main-teal {
+            color: #00bcd4;
+        }
+        .main-teal-bg {
+            background-color: #00bcd4;
+        }
+        .passenger-section-bg {
+            background-color: #f0f8ff;
+        }
+        /* Style for the active passenger tab */
+        .tab-active {
+            background-color: white;
+            color: #0b222f;
+            border-bottom: 2px solid #00bcd4;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        /* Smooth transitions for hover effects */
+        .transition-default {
+            transition: all 0.2s ease-in-out;
+        }
+        /* Ensures the fixed action bar is always visible */
+        .action-bar {
+            box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -2px rgba(0, 0, 0, 0.06);
+        }
+        /* Custom Checkbox/Radio styling to look modern */
+        input[type="checkbox"], input[type="radio"] {
+            appearance: none;
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid #9ca3af; /* Gray border */
+            border-radius: 0.25rem;
+            cursor: pointer;
+            outline: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease-in-out;
+        }
+        input[type="checkbox"]:checked, input[type="radio"]:checked {
+            background-color: #00bcd4; /* Accent Teal */
+            border-color: #00bcd4;
+        }
+        input[type="checkbox"]:checked::after {
+            content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        input[type="radio"] {
+            border-radius: 50%;
+        }
+        input[type="radio"]:checked::after {
+            content: '';
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background-color: white;
+            display: block;
+        }
+        
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col font-sans">
 
-		<!-- Google Fonts: Karla and Montserrat -->
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <!-- Top Navigation Bar -->
+    <nav class="header-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+            <!-- Logo & Main Menu -->
+            <div class="flex items-center space-x-6">
+                <!-- Logo -->
+                <a href="#" class="flex-shrink-0 flex items-center text-2xl font-black text-white">
+                    <span class="text-white">Parallox</span> <span class="text-teal-400">Airlines</span>
+                </a>
+                <!-- Links -->
+                <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                    <a href="#" class="main-teal border-b-2 border-main-teal px-1 pt-1 text-sm font-semibold transition-default">Manage Booking</a>
+                    <a href="#" class="border-b-2 border-transparent text-gray-300 hover:border-gray-300 hover:text-white px-1 pt-1 text-sm font-medium transition-default">Flight Information</a>
+                    <a href="#" class="border-b-2 border-transparent text-gray-300 hover:border-gray-300 hover:text-white px-1 pt-1 text-sm font-medium transition-default">About Us</a>
+                </div>
+            </div>
 
-		<!-- External CSS Link -->
-		<link rel="stylesheet" type="text/css" href="./index.css">
+            <!-- Login / Sign Up -->
+            <div class="flex items-center space-x-4">
+                <span class="text-sm text-gray-400 hidden lg:block">🇵🇭 English</span>
+                <button class="bg-transparent border border-white hover:bg-white hover:text-gray-800 text-white font-bold py-1 px-4 rounded-lg transition-default text-sm">
+                    LOG IN
+                </button>
+                <button class="main-teal-bg hover:bg-teal-400 text-white font-bold py-1 px-4 rounded-lg transition-default text-sm">
+                    SIGN UP
+                </button>
+            </div>
+        </div>
+    </nav>
 
-		<!-- Favicon -->
-		<link rel="icon" type="image/x-icon" href="./images/icon_black.png">
+    <!-- Main Content Wrapper -->
+    <main class="flex-grow pb-24">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            
+            <!-- Flight Itinerary and Cost Header -->
+            <div class="bg-white p-6 rounded-xl shadow-lg mb-8 flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0">
+                
+                <!-- Route Details -->
+                <div class="flex items-center space-x-4">
+                    <div class="text-4xl font-extrabold text-gray-800">Manila (MNL)</div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="main-teal w-8 h-8 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M21.5 13.5l-3.25 3.25-1.5-1.5-.75.75L17 17l-1.5 1.5.75.75-1.5 1.5-3.25-3.25V13.5H3V11.5H10.25V9L18.25 1.75l1.5 1.5.75-.75 1.5 1.5-.75.75L21.5 9V11.5H23v2z"/></svg>
+                    <div class="text-4xl font-extrabold text-gray-800">Tokyo (TKY)</div>
+                    
+                    <div class="ml-6 text-sm text-gray-500 border-l pl-4 hidden sm:block">
+                        <p>Return | 1 Passenger</p>
+                    </div>
+                </div>
 
-	</head>
-	<body>
+                <!-- Cost and Summary -->
+                <div class="flex items-center space-x-4">
+                    <div class="text-right">
+                        <p class="text-xs font-semibold text-gray-500 uppercase">Cost</p>
+                        <p class="text-3xl font-black main-teal">PHP 1,648.00</p>
+                    </div>
+                    
+                    <button class="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-lg text-sm transition-default">
+                        View Summary
+                        <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Passenger Details Section -->
+            <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+                
+                <!-- Main Title and Description -->
+                <div class="p-6 header-bg text-white">
+                    <h1 class="text-2xl font-bold mb-1">Passenger Details</h1>
+                    <p class="text-sm text-gray-300">Each passenger must hold a valid passport and visa to be allowed entry into each destination on the flight itinerary. Parallox Airlines cannot be held responsible if a passenger is denied entry and/or deported by any local authority</p>
+                </div>
 
-		<!-- Navbar Section -->
-		<div>
-			
-		</div>
+                <!-- Passenger Tabs and Content -->
+                <div class="passenger-section-bg">
+                    
+                    <!-- Tabs Navigation -->
+                    <div class="flex text-lg font-semibold text-gray-500 bg-gray-100 border-b border-gray-200">
+                        <div id="tab-p1" onclick="switchPassenger(1)" class="flex items-center p-4 cursor-pointer transition-default rounded-t-lg tab-active">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-9 15c0 1 1 2 2 2h14c1 0 2-1 2-2a10 10 0 0 0-9-15z"/><path d="M8 14s1.5-2 4-2 4 2 4 2"/><path d="M12 12v-4"/><path d="M10 9l2-2 2 2"/></svg>
+                            Passenger 1 - Adult
+                        </div>
+                        <div id="tab-p2" onclick="switchPassenger(2)" class="flex items-center p-4 cursor-pointer transition-default hover:bg-white hover:text-gray-800">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-9 15c0 1 1 2 2 2h14c1 0 2-1 2-2a10 10 0 0 0-9-15z"/><path d="M8 14s1.5-2 4-2 4 2 4 2"/><path d="M12 12v-4"/><path d="M10 9l2-2 2 2"/></svg>
+                            Passenger 2 - Adult
+                        </div>
+                    </div>
 
-		<!-- Selected Flight Section -->
-		<div>
-			
-		</div>
+                    <!-- Form Content Area -->
+                    <form id="passengerForm" onsubmit="handleFormSubmission(event)" class="p-6 md:p-10">
+                        
+                        <!-- Passenger 1 Form Fields -->
+                        <div id="content-p1" class="passenger-content">
+                            <!-- Personal Details -->
+                            <h2 class="text-xl font-bold text-gray-800 mb-4 pb-2 border-b">Personal Details</h2>
 
-		<!-- Passenger Info Section -->
-		<div>
-			
-		</div>
+                            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-6">
+                                <div class="col-span-3">
+                                    <label for="p1_title" class="block text-sm font-medium text-gray-700">Title</label>
+                                    <select id="p1_title" name="p1_title" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-main-teal focus:border-main-teal">
+                                        <option value="">Title</option>
+                                        <option value="Mr">Mr.</option>
+                                        <option value="Ms">Ms.</option>
+                                        <option value="Mrs">Mrs.</option>
+                                    </select>
+                                </div>
+                                <div class="col-span-5">
+                                    <label for="p1_givenName" class="block text-sm font-medium text-gray-700">First/Given Name (as in passport)</label>
+                                    <input type="text" id="p1_givenName" name="p1_givenName" required placeholder="First/Given Name (as in passport)" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-main-teal focus:border-main-teal">
+                                </div>
+                                <div class="col-span-4">
+                                    <label for="p1_familyName" class="block text-sm font-medium text-gray-700">Last/Family Name (as in passport)</label>
+                                    <input type="text" id="p1_familyName" name="p1_familyName" required placeholder="Last/Family Name (as in passport)" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-main-teal focus:border-main-teal">
+                                </div>
+                            </div>
+                            
+                            <!-- Checkboxes -->
+                            <div class="space-y-3 mb-8">
+                                <div class="flex items-center">
+                                    <input id="p1_noFirstName" name="p1_noFirstName" type="checkbox" class="focus:ring-main-teal h-4 w-4 text-main-teal border-gray-300 rounded">
+                                    <label for="p1_noFirstName" class="ml-3 block text-sm text-gray-900">I do not have a first/given name in my passport</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="p1_under18" name="p1_under18" type="checkbox" class="focus:ring-main-teal h-4 w-4 text-main-teal border-gray-300 rounded">
+                                    <label for="p1_under18" class="ml-3 block text-sm text-gray-900">I am below 18 years old</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="p1_seniorCitizen" name="p1_seniorCitizen" type="checkbox" class="focus:ring-main-teal h-4 w-4 text-main-teal border-gray-300 rounded">
+                                    <label for="p1_seniorCitizen" class="ml-3 block text-sm text-gray-900">I am a senior citizen</label>
+                                    <input type="text" id="p1_seniorCitizenID" name="p1_seniorCitizenID" placeholder="Type your senior citizen number" class="ml-4 flex-grow max-w-xs border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:ring-main-teal focus:border-main-teal">
+                                </div>
+                            </div>
 
-		<!-- Pagination Buttons -->
-		<div>
-			
-		</div>
+                            <!-- Contact Details -->
+                            <h2 class="text-xl font-bold text-gray-800 mb-4 pb-2 border-b">Contact Details</h2>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-6">
+                                <div class="col-span-12">
+                                    <label for="p1_email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                                    <input type="email" id="p1_email" name="p1_email" required placeholder="Email Address" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-main-teal focus:border-main-teal">
+                                </div>
+                            </div>
 
-		<!-- Footer Section -->
-		<div>
-			
-		</div>
+                            <!-- Phone Number Details -->
+                            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-6">
+                                <div class="col-span-4">
+                                    <label for="p1_countryCode" class="block text-sm font-medium text-gray-700">Country/Region</label>
+                                    <select id="p1_countryCode" name="p1_countryCode" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-main-teal focus:border-main-teal">
+                                        <option value="PH">Philippines (+63)</option>
+                                        <option value="US">United States (+1)</option>
+                                        <option value="JP">Japan (+81)</option>
+                                    </select>
+                                </div>
+                                <div class="col-span-8">
+                                    <label for="p1_mobileNumber" class="block text-sm font-medium text-gray-700">Mobile Number</label>
+                                    <div class="flex mt-1">
+                                        <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                                            + 63
+                                        </span>
+                                        <input type="tel" id="p1_mobileNumber" name="p1_mobileNumber" placeholder="Mobile Number" class="flex-1 block w-full rounded-none rounded-r-md border border-gray-300 shadow-sm p-3 focus:ring-main-teal focus:border-main-teal">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center mb-8">
+                                <input id="p1_noMobile" name="p1_noMobile" type="checkbox" class="focus:ring-main-teal h-4 w-4 text-main-teal border-gray-300 rounded">
+                                <label for="p1_noMobile" class="ml-3 block text-sm text-gray-900">I don't have a mobile number</label>
+                            </div>
 
+                            <!-- Send Updates Via -->
+                            <div class="mb-6">
+                                <p class="text-sm font-medium text-gray-700 mb-3">Send Me Updates Via:</p>
+                                <div class="flex flex-wrap gap-6">
+                                    <div class="flex items-center">
+                                        <input id="p1_update_sms" name="p1_update_method" type="radio" value="sms" checked class="focus:ring-main-teal h-4 w-4 text-main-teal border-gray-300">
+                                        <label for="p1_update_sms" class="ml-3 text-sm text-gray-900">Text Messages</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input id="p1_update_wa" name="p1_update_method" type="radio" value="whatsapp" class="focus:ring-main-teal h-4 w-4 text-main-teal border-gray-300">
+                                        <label for="p1_update_wa" class="ml-3 text-sm text-gray-900 flex items-center">WhatsApp <svg xmlns="http://www.w3.org/2000/svg" class="ml-1 w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12.008 0C5.393 0 .004 5.392.004 12c0 1.956.467 3.821 1.353 5.485L0 24l5.632-1.558c1.614.908 3.435 1.406 5.795 1.406 6.611 0 12.005-5.39 12.005-12.003 0-6.611-5.394-12.005-12.005-12.005zm0 2.219c5.385 0 9.782 4.398 9.782 9.782s-4.397 9.783-9.782 9.783c-2.126 0-4.102-.682-5.736-1.85l-.417-.247-4.322 1.196 1.222-4.152-.27-.417c-1.19-1.89-1.823-4.062-1.823-6.314 0-5.385 4.397-9.782 9.782-9.782zm-4.37 3.99c-.198-.002-.455-.002-.693.003-.314.008-.667.085-.92.204-.253.12-.426.315-.556.549-.131.234-.199.516-.217.848-.02.332-.019.827.243 1.343.264.516.643 1.056 1.053 1.543 1.037 1.258 1.983 2.164 2.872 2.872.934.735 1.76 1.365 2.656 1.847.896.483 1.83.693 2.72.693 1.076 0 2.016-.363 2.692-.857.676-.494 1.11-1.293 1.242-2.31.132-.988-.198-1.928-.31-2.116-.113-.188-.413-.257-.643-.377-.23-.12-.416-.184-.656-.279-.239-.095-.506-.17-.79-.214-.284-.044-.555-.065-.776-.065-.22 0-.441.022-.682.066-.24.043-.523.116-.838.225-.316.108-.654.269-.993.473-.34.204-.69.46-.992.688z"/></svg></label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input id="p1_update_viber" name="p1_update_method" type="radio" value="viber" class="focus:ring-main-teal h-4 w-4 text-main-teal border-gray-300">
+                                        <label for="p1_update_viber" class="ml-3 text-sm text-gray-900 flex items-center">Viber <svg xmlns="http://www.w3.org/2000/svg" class="ml-1 w-4 h-4 text-purple-600" fill="currentColor" viewBox="0 0 24 24"><path d="M21.2 3.6A11.7 11.7 0 0 0 12 0C5.37 0 0 5.37 0 12s5.37 12 12 12c6.63 0 12-5.37 12-12a11.7 11.7 0 0 0-2.8-8.4zm-9.2 19c-5.18 0-9.4-4.22-9.4-9.4S6.82 3.2 12 3.2s9.4 4.22 9.4 9.4-4.22 9.4-9.4 9.4zM8.5 10.5c-.32 0-.58.26-.58.58v1.84c0 .32.26.58.58.58h2.92c.32 0 .58-.26.58-.58V11.08c0-.32-.26-.58-.58-.58H8.5zM14 10.5c-.32 0-.58.26-.58.58v1.84c0 .32.26.58.58.58h2.92c.32 0 .58-.26.58-.58V11.08c0-.32-.26-.58-.58-.58H14zM12 7.5a.9.9 0 0 1 .9.9v.84c0 .5-.4.9-.9.9s-.9-.4-.9-.9V8.4a.9.9 0 0 1 .9-.9z"/></svg></label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input id="p1_update_tele" name="p1_update_method" type="radio" value="telegram" class="focus:ring-main-teal h-4 w-4 text-main-teal border-gray-300">
+                                        <label for="p1_update_tele" class="ml-3 text-sm text-gray-900 flex items-center">Telegram <svg xmlns="http://www.w3.org/2000/svg" class="ml-1 w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.138 7.425l-2.738 10.238c-.288 1.088-1.05 1.35-1.85.95l-3.238-2.587-1.562 1.512c-.175.175-.412.262-.65.262-.238 0-.475-.087-.65-.262-.275-.275-.362-.662-.212-1.025l1.05-3.037L6.638 9.3c.088-.412.35-.712.75-.787l7.5-.138c.362-.013.625.137.762.337.137.213.137.475 0 .725l-6.85 4.35-2.075-1.325c-.25-.162-.512-.237-.775-.237-.475 0-.975.387-1.2.862l-1.6 3.1c-.262.512-.325 1.075-.175 1.587.163.525.463.95.875 1.25.4.312.875.525 1.35.613l.025.012c.3.063.613.063.913 0l.025-.012c.475-.088.95-.3 1.35-.612.412-.3.712-.725.875-1.237.15-.512.088-1.075-.175-1.587l-1.6-3.1c-.225-.475-.725-.863-1.2-.863-.263 0-.525.075-.775.238l-2.075 1.325-1.75-5.55c-.213-.675-.15-1.412.187-2.05.338-.638.938-1.087 1.638-1.15l7.462-.125c.362-.012.625.138.762.338.138.212.138.475 0 .725z"/></svg></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-		<!-- Bootstrap JS Dependency -->
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-	</body>
+                        <!-- Passenger 2 Form Fields (Hidden by default) -->
+                        <div id="content-p2" class="passenger-content hidden">
+                            <!-- Personal Details -->
+                            <h2 class="text-xl font-bold text-gray-800 mb-4 pb-2 border-b">Personal Details (Passenger 2)</h2>
+
+                            <p class="text-gray-500 mb-6">Enter details for the second passenger.</p>
+
+                            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 mb-6">
+                                <div class="col-span-3">
+                                    <label for="p2_title" class="block text-sm font-medium text-gray-700">Title</label>
+                                    <select id="p2_title" name="p2_title" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-main-teal focus:border-main-teal">
+                                        <option value="">Title</option>
+                                        <option value="Mr">Mr.</option>
+                                        <option value="Ms">Ms.</option>
+                                        <option value="Mrs">Mrs.</option>
+                                    </select>
+                                </div>
+                                <div class="col-span-5">
+                                    <label for="p2_givenName" class="block text-sm font-medium text-gray-700">First/Given Name (as in passport)</label>
+                                    <input type="text" id="p2_givenName" name="p2_givenName" required placeholder="First/Given Name (as in passport)" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-main-teal focus:border-main-teal">
+                                </div>
+                                <div class="col-span-4">
+                                    <label for="p2_familyName" class="block text-sm font-medium text-gray-700">Last/Family Name (as in passport)</label>
+                                    <input type="text" id="p2_familyName" name="p2_familyName" required placeholder="Last/Family Name (as in passport)" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:ring-main-teal focus:border-main-teal">
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-3 mb-8">
+                                <div class="flex items-center">
+                                    <input id="p2_noFirstName" name="p2_noFirstName" type="checkbox" class="focus:ring-main-teal h-4 w-4 text-main-teal border-gray-300 rounded">
+                                    <label for="p2_noFirstName" class="ml-3 block text-sm text-gray-900">I do not have a first/given name in my passport</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="p2_under18" name="p2_under18" type="checkbox" class="focus:ring-main-teal h-4 w-4 text-main-teal border-gray-300 rounded">
+                                    <label for="p2_under18" class="ml-3 block text-sm text-gray-900">I am below 18 years old</label>
+                                </div>
+                                <div class="flex items-center">
+                                    <input id="p2_seniorCitizen" name="p2_seniorCitizen" type="checkbox" class="focus:ring-main-teal h-4 w-4 text-main-teal border-gray-300 rounded">
+                                    <label for="p2_seniorCitizen" class="ml-3 block text-sm text-gray-900">I am a senior citizen</label>
+                                    <input type="text" id="p2_seniorCitizenID" name="p2_seniorCitizenID" placeholder="Type your senior citizen number" class="ml-4 flex-grow max-w-xs border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:ring-main-teal focus:border-main-teal">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Fixed Action Bar -->
+    <div class="action-bar fixed bottom-0 w-full bg-white border-t border-gray-200 p-4">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <button class="flex items-center text-gray-500 font-semibold hover:text-gray-700 transition-default">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                Back
+            </button>
+            <button onclick="document.getElementById('passengerForm').requestSubmit()" class="text-white font-bold py-3 px-8 rounded-full shadow-lg transition-default" style="background-color: #ff3366; hover:bg-pink-600;">
+                Select Seats
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="header-bg text-white mt-auto py-4">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center text-sm">
+            <div class="flex items-center space-x-4 mb-3 md:mb-0">
+                <p>Connect With Us:</p>
+                <!-- Social Icons Placeholder (use SVG or simple text to represent icons) -->
+                <span class="text-xl space-x-3">
+                    <span class="text-gray-400 hover:text-white transition-default">f</span>
+                    <span class="text-gray-400 hover:text-white transition-default">t</span>
+                    <span class="text-gray-400 hover:text-white transition-default">X</span>
+                    <span class="text-gray-400 hover:text-white transition-default">in</span>
+                    <span class="text-gray-400 hover:text-white transition-default">▶</span>
+                </span>
+            </div>
+            <p class="text-gray-400">Copyright: Parallox Airlines Limited</p>
+        </div>
+    </footer>
+
+    <script>
+        // State for active passenger
+        let activePassenger = 1;
+
+        // --- Tab Switching Logic ---
+        function switchPassenger(passengerNumber) {
+            // Update active state
+            activePassenger = passengerNumber;
+
+            // Remove active classes from all tabs and content
+            document.querySelectorAll('[id^="tab-p"]').forEach(tab => {
+                tab.classList.remove('tab-active', 'bg-white', 'text-gray-800');
+                tab.classList.add('hover:bg-white', 'hover:text-gray-800');
+            });
+            document.querySelectorAll('.passenger-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+
+            // Add active classes to the selected tab and content
+            const activeTab = document.getElementById(`tab-p${passengerNumber}`);
+            const activeContent = document.getElementById(`content-p${passengerNumber}`);
+
+            if (activeTab) {
+                activeTab.classList.add('tab-active');
+                activeTab.classList.remove('hover:bg-white', 'hover:text-gray-800');
+            }
+            if (activeContent) {
+                activeContent.classList.remove('hidden');
+            }
+        }
+
+        // --- Form Submission Handler (Unchanged functionality) ---
+        function handleFormSubmission(event) {
+            event.preventDefault(); // Stop the default form submission
+
+            const form = event.target;
+            const formData = new FormData(form);
+            const passengerData = {};
+
+            // Collect all form data into a readable object
+            for (let [key, value] of formData.entries()) {
+                passengerData[key] = value;
+            }
+
+            console.log("Passenger Data Collected:", passengerData);
+
+            // Simple validation check (e.g., check P1's family name)
+            if (!passengerData.p1_familyName) {
+                showMessage("Please ensure the Last/Family Name is entered for the primary traveler.", 'error');
+                return;
+            }
+
+            // In a real application, you would send this data to your server here.
+
+            // Show success message
+            showMessage("Passenger information saved successfully! Proceeding to the next step (Seat Selection).", 'success');
+        }
+
+        // --- Simple Message Box Implementation (Tailwind/In-page style) ---
+        function showMessage(message, type = 'success') {
+            const box = document.getElementById('messageBox');
+            let icon = '';
+            let alertClass = '';
+
+            if (type === 'success') {
+                alertClass = 'bg-green-500 text-white';
+                icon = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>`;
+            } else if (type === 'error') {
+                alertClass = 'bg-red-500 text-white';
+                icon = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
+            } else { // 'info'
+                 alertClass = 'bg-blue-500 text-white';
+                 icon = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
+            }
+
+            box.innerHTML = `
+                <div class="flex items-center justify-between p-4 rounded-lg shadow-xl ${alertClass}">
+                    <div class="flex items-center">
+                        ${icon}
+                        <span class="ml-3 text-sm font-medium">${message}</span>
+                    </div>
+                </div>
+            `;
+            box.style.display = 'block';
+
+            // Hide the box after 4 seconds
+            setTimeout(() => {
+                box.style.display = 'none';
+            }, 4000);
+        }
+
+        // --- Initial setup on load ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Ensure the initial state is P1 active
+            switchPassenger(1);
+        });
+    </script>
+</body>
 </html>
