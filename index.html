@@ -23,8 +23,40 @@
 
 		<!-- Navbar Section -->
 		<div>
-			
-		</div>
+    <nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="./images/icon_white2.png" class="logo-image" height="40px" width="60px" alt="Logo">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0"> <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Manage Booking</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Flight Information</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About Us</a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex align-items-lg-center gap-3 mt-3 mt-lg-0 flex-column flex-lg-row">
+                    <button class="btn rounded-pill text-white custom-button">
+                        Log In
+                    </button>
+                    <button class="btn rounded-pill text-white custom-button">
+                        Sign Up
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
 
 		<!-- Landing Section -->
 		<div>
@@ -37,10 +69,30 @@
 		</div>
 
 		<!-- Footer Section -->
-		<div>
-			
-		</div>
-
+<footer class="footer py-3">
+    <div class="container">
+        <div class="row text-center g-4">  <!-- g-4 for vertical spacing -->
+            <div class="col-12">
+                <p class="connect-text mb-0">Connect With Us:</p>
+            </div>
+           
+            <div class="col-12">
+                <ul class="social-links d-flex justify-content-center flex-wrap list-unstyled gap-4 m-0 p-0">
+                    <li><a href="#" aria-label="Facebook"><img src="./images/Icons/facebook.png" alt="Facebook"></a></li>
+                    <li><a href="#" aria-label="TikTok"><img src="./images/Icons/tiktok.png" alt="TikTok"></a></li>
+                    <li><a href="#" aria-label="X"><img src="./images/Icons/X.png" alt="X"></a></li>
+                    <li><a href="#" aria-label="Instagram"><img src="./images/Icons/instagram.png" alt="Instagram"></a></li>
+                    <li><a href="#" aria-label="LinkedIn"><img src="./images/Icons/linkedin.png" alt="LinkedIn"></a></li>
+                    <li><a href="#" aria-label="YouTube"><img src="./images/Icons/youtube.png" alt="YouTube"></a></li>
+                </ul>
+            </div>
+           
+            <div class="col-12">
+                <p class="copyright-text mb-0">Copyright: Parallox Airlines Limited</p>
+            </div>
+        </div>
+    </div>
+</footer>
 
 		<!-- Bootstrap JS Dependency -->
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>

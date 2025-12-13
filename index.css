@@ -332,6 +332,226 @@
   }
 }
 
+/* -------------------------
+   HEADER PAGE STYLING
+--------------------------*/
+
+
+/* 1. Background colors */
+.custom-navbar {
+  /* Replaces style="background-color: #222831;" on <nav> */
+  background-color: #222831 !important; /* Use !important to override Bootstrap if needed, or target the element more specifically */
+}
+
+/* 2. Logo Image styling */
+.logo-image {
+  /* Replaces style="background-color: #222831;" on <img> */
+  background-color: #222831;
+  /* You may also want to set height/width here if you didn't use attributes on the HTML tag, but using the attributes is fine too. */
+}
+
+/* 3. Button styling */
+.custom-button {
+  /* Replaces style="background-color: #00ADB5; width: 120px" on buttons */
+  background-color: #00ADB5 !important;
+  width: 120px;
+}
+
+/* Optional: Button hover effect for better UX */
+.custom-button:hover {
+  background-color: #008D94 !important; /* Slightly darker shade on hover */
+}
+
+
+/* -------------------------
+   FOOTER PAGE STYLING
+--------------------------*/
+
+/* ========================================
+   FOOTER - EXACT FIGMA REPLICA
+======================================= */
+
+/* FOOTER VARIABLES (Matches Figma colors) */
+:root {
+  --footer-bg: #00ADB5; /* Exact cyan from Figma */
+  --footer-text: #FFFFFF; /* Pure white */
+  --footer-icon-size: 40px;
+}
+
+/* BASE FOOTER */
+.footer {
+  background-color: var(--footer-bg);
+  color: var(--footer-text);
+  padding: 1.5rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* MAIN LAYOUT - EXACT FIGMA HORIZONTAL */
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  gap: 2rem;
+}
+
+/* CONNECT TEXT - Left side */
+.connect-text {
+  margin: 0;
+  font-size: var(--font-lg); /* 18px */
+  font-weight: 600;
+  color: var(--footer-text);
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+
+/* SOCIAL LINKS - Center */
+.social-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem; /* Exact Figma spacing */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+}
+
+.social-links li {
+  display: inline-block;
+}
+
+/* SOCIAL ICON CIRCLES - Exact Figma */
+.social-links a {
+  width: var(--footer-icon-size);
+  height: var(--footer-icon-size);
+  border: 2px solid var(--footer-text);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.social-links a::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.6s ease;
+}
+
+.social-links a:hover::before {
+  width: 120%;
+  height: 120%;
+}
+
+.social-links a:hover {
+  transform: translateY(-4px) scale(1.05);
+  border-color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 25px rgba(0, 173, 181, 0.4);
+}
+
+/* ICON IMAGES - White, centered */
+.social-links a img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  display: block;
+  filter: brightness(0) invert(1); /* Makes icons white */
+  transition: all 0.3s ease;
+}
+
+.social-links a:hover img {
+  filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+/* COPYRIGHT - Right side */
+.copyright-text {
+  margin: 0;
+  font-size: var(--font-sm); /* 14px */
+  font-weight: 400;
+  color: var(--footer-text);
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+}
+
+:root {
+  --footer-bg: #00ADB5;
+  --footer-text: #FFFFFF;
+  --footer-icon-size: 40px;
+}
+
+.footer {
+  background-color: var(--footer-bg);
+  color: var(--footer-text);
+}
+
+/* Center everything consistently */
+.connect-text {
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem; /* or your --font-lg */
+  font-weight: 600;
+}
+
+.copyright-text {
+  margin: 1rem 0 0 0;
+  font-size: 0.875rem; /* or your --font-sm */
+}
+
+/* Your excellent icon styling – keep most of it! */
+.social-links {
+  gap: 1.5rem; /* adjust as needed */
+}
+
+.social-links a {
+  width: var(--footer-icon-size);
+  height: var(--footer-icon-size);
+  border: 2px solid var(--footer-text);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Keep all your hover effects and ::before ripple – they're great! */
+
+.social-links a img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+/* Optional: Slightly larger on desktop */
+@media (min-width: 992px) {
+  :root {
+    --footer-icon-size: 48px;
+  }
+  .social-links a img {
+    width: 26px;
+    height: 26px;
+  }
+  .connect-text {
+    font-size: 1.5rem;
+  }
+}
+
 
 
 
@@ -341,407 +561,7 @@
 
 /*ABOUT SPECIFIC STYLING*/
 
-/*ABOUT SPECIFIC STYLING*/
 
-
-/* -------- HERO SECTION -------- */
-
-.hero-section {
-  position: relative;
-  height: 360px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero-section img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(60%);
-  z-index: 1;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  color: white;
-  padding: 0 20px;
-  max-width: 800px;
-}
-
-.hero-content h1 {
-  font-size: 42px;
-  font-weight: 700;
-  margin-bottom: 15px;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-}
-
-.hero-content p {
-  font-size: 18px;
-  margin-bottom: 25px;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-  .hero-section {
-    height: 280px;
-  }
-  
-  .hero-content h1 {
-    font-size: 28px;
-  }
-  
-  .hero-content p {
-    font-size: 16px;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-section {
-    height: 250px;
-  }
-  
-  .hero-content h1 {
-    font-size: 24px;
-  }
-  
-  .hero-content p {
-    font-size: 14px;
-  }
-}
-
-/* -------- OUR JOURNEY SECTION -------- */
-.about-journey img {
-    width: 100%;
-    max-width: 420px;
-    height: auto;
-    border-radius: 30px;
-}
-
-
-.about-journey-text {
-  color: var(--muted);
-  line-height: 1.6;
-}
-
-/* Mobile */
-@media (max-width: 599px) {
-  .about-journey {
-    text-align: center;
-  }
-
-  .about-journey img {
-    margin-bottom: 24px;
-  }
-}
-
-/* -------- VALUES SECTION -------- */
-
-.values-section {
-    background-color: #393E46; 
-    padding: 60px 20px;
-    text-align: center;
-    color: #00ADB5;
-}
-
-.values-section h2 {
-    color: #00C5CF; 
-    font-weight: 700;
-    margin-bottom: 30px;
-}
-
-.value-card {
-    background-color: #3A4048; 
-    border: 2px solid #00C5CF; 
-    border-radius: 10px;
-    padding: 25px;
-    color: #00C5CF;
-    transition: 0.3s ease;
-
-}
-
-
-.value-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-}
-
-
-/* Responsive grid */
-@media (max-width: 768px) {
-    .value-card {
-        width: 100%;
-        max-width: 320px;
-        margin: 0 auto;
-    }
-}
-
-
-/* -------- TEAM SECTION -------- */
-.team-card {
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
-  overflow: hidden;
-  background-color: var(--color-white);
-}
-
-.team-card img {
-  width: 100%;
-  height: 240px;
-  object-fit: cover;
-}
-
-.team-card h5 {
-  font-weight: 700;
-  color: var(--text);
-}
-
-.team-card p {
-  color: var(--muted);
-  font-family: "Karla";
-}
-
-.team-title span {
-    color: #00ADB5; 
-    font-weight: 600;
-}
-/* Mobile */
-@media (max-width: 599px) {
-  .team-card img {
-    height: 180px;
-  }
-}
-
-
-/*CONFIRMATION SECTION STYLING*/
-/* RESET */
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:"Montserrat";
-}
-
-:root {
-    --accent:#00adb5;
-    --dark:#222831;
-    --text:#eeeeee;
-}
-
-/*************************
-    NAVBAR
-*************************/
-.navbar{
-    width:100%;
-    padding:14px 5%;
-    background:#1b1f25;
-    color:white;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
-
-.nav-left{
-    display:flex;
-    align-items:center;
-    gap:30px;
-}
-
-.nav-logo{
-    height:40px;
-}
-
-.nav-links{
-    display:flex;
-    gap:25px;
-}
-
-.nav-links a{
-    color:white;
-    text-decoration:none;
-    font-weight:500;
-}
-
-.nav-right{
-    display:flex;
-    align-items:center;
-    gap:20px;
-}
-
-.nav-text{
-    color:white;
-    font-size:14px;
-    text-decoration:none;
-}
-
-.btn-login,
-.btn-signup{
-    padding:6px 18px;
-    border-radius:25px;
-    font-weight:600;
-    text-decoration:none;
-}
-
-.btn-login{
-    background:var(--accent);
-    color:white;
-}
-
-.btn-signup{
-    background:white;
-    color:#1a1a1a;
-}
-
-
-/*************************
-    CONFIRMATION SECTION
-*************************/
-
-.confirm-section {
-    width: 100%;
-    min-height: 80vh;
-    background: linear-gradient(
-                rgba(0, 0, 0, 0.2),
-                rgba(0, 0, 0, 0.2)
-            ),
-            url("./images/confirmation.jpeg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 20px;
-}
-
-
-.confirm-card {
-    background: rgba(0, 128, 128, 0.55); 
-    border-radius: 24px;
-    padding: 50px 40px;
-    max-width: 700px;
-    width: 100%;
-    text-align: center;
-    color: white;
-    backdrop-filter: blur(6px);
-}
-
-/* Logo */
-.confirm-card img {
-    width: 400px;
-    margin-bottom: 10px;
-}
-
-/* Title */
-.confirm-card h2 {
-    font-size: 42px;
-    font-weight: 700;
-    line-height: 1.15;
-}
-
-/* Messages */
-.confirm-card p {
-    color: #ffffff;
-    line-height: 1.6;
-}
-
-.confirm-card span {
-    color: #F0265F; 
-    font-weight: 600;
-}
-
-.ticket-id {
-    margin-top: 20px;
-    font-size: 20px;
-    font-weight: 700;
-}
-
-
-/*************************
-    FOOTER
-*************************/
-.footer{
-    background:#1a1a1a;
-    color:white;
-    padding:22px 5%;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-}
-
-.footer-left{
-    display:flex;
-    align-items:center;
-    gap:20px;
-}
-
-.socials{
-    display:flex;
-    gap:15px;
-}
-
-.socials img{
-    width:28px;
-    height:28px;
-    filter:invert(1);
-}
-
-.footer-right{
-    font-size:15px;
-    margin-top:10px;
-}
-
-
-/*************************
-    RESPONSIVE
-*************************/
-
-/* TABLET */
-@media(max-width:900px){
-    .nav-links{ display:none; }
-    .confirm-card h2{ font-size:34px; }
-    .confirm-section{ height:65vh; }
-}
-
-/* MOBILE */
-@media(max-width:600px){
-    .navbar{
-        flex-direction:column;
-        gap:10px;
-        text-align:center;
-    }
-
-    .nav-right{
-        gap:12px;
-    }
-
-    .confirm-card{
-        padding:30px 20px;
-    }
-
-    .confirm-card h2{
-        font-size:28px;
-    }
-
-    .ticket-id{
-        font-size:16px;
-    }
-
-    .footer{
-        flex-direction:column;
-        text-align:center;
-        gap:12px;
-    }
-}
 
 /*BOOKINGS PAGE SPECIFIC STYLING*/
 
