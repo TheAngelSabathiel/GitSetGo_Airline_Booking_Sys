@@ -39,6 +39,11 @@
 	/* Breakpoints */
 	--bp-tablet: 600px;
 	--bp-desktop: 1024px;
+
+  --primary-teal: #22a0a3;
+  --dark-bg: #2c343f;
+  --accent-pink: #f82d6a;
+  --dark-blue: #2c343f;
 }
 
 /*BRANDING - DESKTOP VIEW*/
@@ -175,6 +180,143 @@
 
 /*HOMEPAGE SPECIFIC STYLING*/
 
+
+        .hero-title, .search-btn {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            font-family: 'Karla', sans-serif;
+            background-color: var(--dark-bg);
+            color: white;
+            background: linear-gradient(rgba(80,80,80,0.5), rgba(80,80,80,0.5)), 
+                        url('./images/homepage.jpg'); 
+
+            background-size: cover;
+            background-position: center;
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            padding: 60px 0;
+        }
+
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -1px;
+        }
+
+        /* Glassmorphism Booking Card */
+        .booking-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: 40px;
+            color: #333;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .booking-card img {
+            max-width: 25px;
+            height: auto;
+        }
+
+        .input-group-custom {
+            background: white;
+            border-radius: 12px;
+            padding: 12px 18px;
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .input-group-custom2 {
+            border-radius: 12px;
+            padding: 12px 18px;
+            margin-bottom: 15px;
+        }
+
+
+        .input-label {
+            font-family: 'Karla', sans-serif;
+            font-size: 0.85rem;
+            color: var(--primary-teal);
+            font-weight: 700;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .search-btn {
+            background-color: var(--accent-pink);
+            border: none;
+            color: white;
+            padding: 14px;
+            border-radius: 12px;
+            width: 100%;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background-color: #e0265d;
+            transform: scale(1.02);
+        }
+
+        /* Assistance Section */
+        .assistance-section {
+            font-family: 'Karla', sans-serif;
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 80px 0;
+            background-color: var(--dark-bg);
+        }
+
+        .section-title {
+            border-bottom: 4px solid var(--primary-teal);
+            display: inline-block;
+            padding-bottom: 8px;
+            margin-bottom: 50px;
+            font-size: 1.25rem;
+            text-transform: capitalize;
+        }
+
+        .feature-card {
+            background: white;
+            border: 4px solid var(--primary-teal);
+            border-radius: 12px;
+            padding: 40px 20px;
+            text-align: center;
+            height: 100%;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-card img {
+            max-width: 100px;
+            height: auto;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .feature-card h5 {
+            color: var(--primary-teal);
+            font-size: 1.1rem;
+            margin-top: 20px;
+            margin-bottom: 0;
+        }
+
+        .icon-placeholder {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+            object-fit: contain;
+        }
 
 
 /*LOGIN PAGE SPECIFIC STYLING*/
@@ -556,7 +698,101 @@
 
 
 /*ACCOUNT PAGE SPECIFIC STYLING*/
+        .profile-hero {
+            background: linear-gradient(rgba(180,180,180,0.5), rgba(80,80,80,0.5)), 
+                        url('./images/account-img.png'); /* Use your airplane image */
+            background-size: cover;
+            background-position: center;
+            padding: 50px 0;
+            color: white;
+            font-family: 'Karla', sans-serif;
 
+        }
+
+        .profile-hero h1, .profile-hero h2, .profile-hero h3, .profile-hero .btn-pink { font-family: 'Montserrat', sans-serif; }
+
+        .btn-pink {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--accent-pink);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 5px 20px;
+            font-size: 0.8rem;
+        }
+
+        .info-label {
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .info-value-box {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 10px;
+            padding: 8px 15px;
+            color: #555;
+            margin-bottom: 15px;
+            min-height: 40px;
+        }
+
+        /* Flight Cards */
+        .section-header {
+            color: var(--primary-teal);
+            font-weight: 800;
+            margin: 40px 0 20px;
+            border-bottom: 3px var(--primary-teal);
+            display: inline-block;
+        }
+
+        .flight-card {
+            background: #f1f1f1;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 8px solid var(--primary-teal);
+            transition: transform 0.2s;
+        }
+
+        .flight-card:hover { transform: scale(1.01); }
+
+        .booking-no {
+            color: var(--primary-teal);
+            font-weight: bold;
+            font-family: 'Montserrat';
+        }
+
+        .airline-logo { max-width: 100px; }
+        
+        .time-text { font-weight: bold; margin-bottom: 0; }
+        .date-location { font-size: 0.85rem; color: #666; margin-bottom: 0;}
+        .price-text {  font-size: 0.85rem; color: #333;  margin-bottom: 0;}
+
+        /* Container for the Flight History section */
+        .history-section-bg {
+            background-color: #f1f1f1; /* Light grey background for the whole section */
+            padding: 40px 0 60px 0;
+            margin-top: 40px;
+        }
+
+        /* White cards specifically for the History section */
+        .history-card {
+            background: #ffffff; 
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 8px solid var(--primary-teal);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        /* Styling for the Filter inputs */
+        .filter-input {
+            border: none;
+            border-radius: 8px;
+            padding: 8px 15px;
+            height: 45px;
+        }
 
 
 /*ABOUT SPECIFIC STYLING*/

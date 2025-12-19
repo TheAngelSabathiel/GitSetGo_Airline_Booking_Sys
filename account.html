@@ -22,30 +22,269 @@
 	<body>
 
 		<!-- Navbar Section -->
-		<div>
-			
-		</div>
+        <div>
+            <nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">
+                        <img src="./images/icon_white2.png" class="logo-image" height="40px" width="60px" alt="Logo">
+                    </a>
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0"> <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Manage Booking</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Flight Information</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">About Us</a>
+                            </li>
+                        </ul>
+                        
+                        <div class="d-flex align-items-lg-center gap-3 mt-3 mt-lg-0 flex-column flex-lg-row">
+                            <button class="btn rounded-pill text-white custom-button">
+                                Log In
+                            </button>
+                            <button class="btn rounded-pill text-white custom-button">
+                                Sign Up
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
 
 		<!-- Greetings Section -->
-		<div>
-			
-		</div>
+		<section class="profile-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <h1 class="display-5 fw-bold">Good day,<br>Juan Dela Cruz!</h1>
+                    <p class="mb-1">ID: 900 000 000</p>
+                    <p>Member</p>
+                    <button class="btn btn-pink">Edit Profile</button>
+                </div>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-md-1"><label class="info-label">Title:</label><div class="info-value-box">Mr.</div></div>
+                <div class="col-md-3"><label class="info-label">First name:</label><div class="info-value-box">Juan</div></div>
+                <div class="col-md-3"><label class="info-label">Last name:</label><div class="info-value-box">Dela Cruz</div></div>
+                <div class="col-md-1"><label class="info-label">M. I.</label><div class="info-value-box"></div></div>
+                
+                <div class="col-md-2"><label class="info-label">Gender:</label><div class="info-value-box">Male</div></div>
+                <div class="col-md-2"><label class="info-label">Date of Birth:</label><div class="info-value-box">11/15/2000</div></div>
+                <div class="col-md-3"><label class="info-label">Contact Number:</label><div class="info-value-box">+63 961 222 2022</div></div>
+                <div class="col-md-4"><label class="info-label">Email Address:</label><div class="info-value-box">juandelacruz@gmail.com</div></div>
+                
+                <div class="col-md-4">
+                    <label class="info-label">Default Payment Method:</label>
+                    <div class="info-value-box">VISA ●●●● ●●●● 1234</div>
+                </div>
+            </div>
+        </div>
+   		</section>
 
 		<!-- Flight Schedule Section -->
-		<div>
-			
-		</div>
+		<div class="container pb-5">
+	        <h2 class="section-header">Flight Schedule</h2>
+	        
+	        <div class="flight-card shadow-sm">
+	            <div class="row align-items-center text-center text-md-start">
+	            	<div class="booking-no">Booking No. 0001 1234</div>
+	                <div class="col-md-1 mb-3 mb-md-0">
+	                    <img src="./images/icon_black.png" class="airline-logo my-2" alt="Parallox Logo">
+	                </div>
+	                <div class="col-md-2 mb-3 mb-md-0">
+	                    <div class="small">Aircraft 2100<br>Economy</div>
+	                </div>
+	                <div class="col-md-3">
+	                    <p class="time-text">8:30 AM PHT</p>
+	                    <p class="date-location">November 19, 2025<br>Manila, Philippines</p>
+	                </div>
+	                <div class="col-md-3 border-start">
+	                    <p class="time-text">12:30 PM JST</p>
+	                    <p class="date-location">November 19, 2025<br>Fukuoka, Japan</p>
+	                </div>
+	                <div class="col-md-3 text-md-start">
+	                    <div class="price-text">₱15000.00</div>
+	                    <div class="small text-muted">Seats: 2<br>F1, F2</div>
+	                </div>
+	            </div>
+	        </div>
+	       	<div class="flight-card shadow-sm">
+	            <div class="row align-items-center text-center text-md-start">
+	            	<div class="booking-no">Booking No. 0001 1234</div>
+	                <div class="col-md-1 mb-3 mb-md-0">
+	                    <img src="./images/icon_black.png" class="airline-logo my-2" alt="Parallox Logo">
+	                </div>
+	                <div class="col-md-2 mb-3 mb-md-0">
+	                    <div class="small">Aircraft 2100<br>Economy</div>
+	                </div>
+	                <div class="col-md-3">
+	                    <p class="time-text">8:30 AM PHT</p>
+	                    <p class="date-location">November 19, 2025<br>Manila, Philippines</p>
+	                </div>
+	                <div class="col-md-3 border-start">
+	                    <p class="time-text">12:30 PM JST</p>
+	                    <p class="date-location">November 19, 2025<br>Fukuoka, Japan</p>
+	                </div>
+	                <div class="col-md-3 text-md-start">
+	                    <div class="price-text">₱15000.00</div>
+	                    <div class="small text-muted">Seats: 2<br>F1, F2</div>
+	                </div>
+	            </div>
+	        </div>
+	       	<div class="flight-card shadow-sm">
+	            <div class="row align-items-center text-center text-md-start">
+	            	<div class="booking-no">Booking No. 0001 1234</div>
+	                <div class="col-md-1 mb-3 mb-md-0">
+	                    <img src="./images/icon_black.png" class="airline-logo my-2" alt="Parallox Logo">
+	                </div>
+	                <div class="col-md-2 mb-3 mb-md-0">
+	                    <div class="small">Aircraft 2100<br>Economy</div>
+	                </div>
+	                <div class="col-md-3">
+	                    <p class="time-text">8:30 AM PHT</p>
+	                    <p class="date-location">November 19, 2025<br>Manila, Philippines</p>
+	                </div>
+	                <div class="col-md-3 border-start">
+	                    <p class="time-text">12:30 PM JST</p>
+	                    <p class="date-location">November 19, 2025<br>Fukuoka, Japan</p>
+	                </div>
+	                <div class="col-md-3 text-md-start">
+	                    <div class="price-text">₱15000.00</div>
+	                    <div class="small text-muted">Seats: 2<br>F1, F2</div>
+	                </div>
+	            </div>
+	        </div>
+        </div>
 
 		<!-- Flight History Section -->
-		<div>
-			
-		</div>
+		<div class="history-section-bg">
+		    <div class="container">
+		        <div class="row align-items-end mb-4">
+		            <div class="col-lg-4">
+		                <h2 class="section-header mb-0">Flight History</h2>
+		            </div>
+		            
+		            <div class="col-lg-8">
+		                <div class="d-flex gap-3 justify-content-lg-end align-items-end flex-wrap">
+		                    <div style="width: 180px;">
+		                        <label class="info-label text-dark">From</label>
+		                        <input type="text" class="form-control filter-input" placeholder="October 1, 2025">
+		                    </div>
+		                    <div style="width: 180px;">
+		                        <label class="info-label text-dark">To</label>
+		                        <input type="text" class="form-control filter-input" placeholder="October 31, 2025">
+		                    </div>
+		                    <button class="btn btn-pink px-4 mb-1" style="height: 45px;">Apply Filter</button>
+		                </div>
+		            </div>
+		        </div>
+
+		        <div class="history-card">
+		            <div class="row align-items-center">
+		            	<div class="booking-no">Booking No. 0001 1234</div>
+		                <div class="col-md-1">
+		                    <img src="./images/icon_black.png" class="airline-logo" alt="Logo" style="max-width: 100px;">
+		                </div>
+		               	<div class="col-md-2 text-center text-md-start">
+		                    <div class="fw-bold">Aircraft 2100 <br> <span class="fw-normal">Economy</span></div>
+		                </div>
+		                <div class="col-md-3 text-center text-md-start">
+		                    <p class="time-text">8:30 AM PHT</p>
+		                    <p class="date-location">October 12, 2025<br>Manila, Philippines</p>
+		                </div>
+		                <div class="col-md-3 text-center text-md-start">
+		                    <p class="time-text">12:30 PM JST</p>
+		                    <p class="date-location">October 12, 2025<br>Fukuoka, Japan</p>
+		                </div>
+		                <div class="col-md-3 text-md-start text-center">
+		                    <div class="price-text">₱15000.00</div>
+		                    <div class="small text-muted">Seats: 2<br>F1, F2</div>
+		                </div>
+		            </div>
+		        </div>
+		        <div class="history-card">
+		            <div class="row align-items-center">
+		            	<div class="booking-no">Booking No. 0001 1234</div>
+		                <div class="col-md-1">
+		                    <img src="./images/icon_black.png" class="airline-logo" alt="Logo" style="max-width: 100px;">
+		                </div>
+		               	<div class="col-md-2 text-center text-md-start">
+		                    <div class="fw-bold">Aircraft 2100 <br> <span class="fw-normal">Economy</span></div>
+		                </div>
+		                <div class="col-md-3 text-center text-md-start">
+		                    <p class="time-text">8:30 AM PHT</p>
+		                    <p class="date-location">October 12, 2025<br>Manila, Philippines</p>
+		                </div>
+		                <div class="col-md-3 text-center text-md-start">
+		                    <p class="time-text">12:30 PM JST</p>
+		                    <p class="date-location">October 12, 2025<br>Fukuoka, Japan</p>
+		                </div>
+		                <div class="col-md-3 text-md-start text-center">
+		                    <div class="price-text">₱15000.00</div>
+		                    <div class="small text-muted">Seats: 2<br>F1, F2</div>
+		                </div>
+		            </div>
+		        </div>
+		       	<div class="history-card">
+		            <div class="row align-items-center">
+		            	<div class="booking-no">Booking No. 0001 1234</div>
+		                <div class="col-md-1">
+		                    <img src="./images/icon_black.png" class="airline-logo" alt="Logo" style="max-width: 100px;">
+		                </div>
+		               	<div class="col-md-2 text-center text-md-start">
+		                    <div class="fw-bold">Aircraft 2100 <br> <span class="fw-normal">Economy</span></div>
+		                </div>
+		                <div class="col-md-3 text-center text-md-start">
+		                    <p class="time-text">8:30 AM PHT</p>
+		                    <p class="date-location">October 12, 2025<br>Manila, Philippines</p>
+		                </div>
+		                <div class="col-md-3 text-center text-md-start">
+		                    <p class="time-text">12:30 PM JST</p>
+		                    <p class="date-location">October 12, 2025<br>Fukuoka, Japan</p>
+		                </div>
+		                <div class="col-md-3 text-md-start text-center">
+		                    <div class="price-text">₱15000.00</div>
+		                    <div class="small text-muted">Seats: 2<br>F1, F2</div>
+		                </div>
+		            </div>
+		        </div>
+
+		   </div>
+	</div>
 
 		<!-- Footer Section -->
-		<div>
-			
-		</div>
-
+        <footer class="footer py-3">
+            <div class="container">
+                <div class="row text-center g-4">  <!-- g-4 for vertical spacing -->
+                    <div class="col-12">
+                        <p class="connect-text mb-0">Connect With Us:</p>
+                    </div>
+                   
+                    <div class="col-12">
+                        <ul class="social-links d-flex justify-content-center flex-wrap list-unstyled gap-4 m-0 p-0">
+                            <li><a href="https://www.facebook.com" aria-label="Facebook"><img src="./images/Icons/facebook.png" alt="Facebook"></a></li>
+                            <li><a href="https://www.tiktok.com" aria-label="TikTok"><img src="./images/Icons/tiktok.png" alt="TikTok"></a></li>
+                            <li><a href="https://www.x.com" aria-label="X"><img src="./images/Icons/x.png" alt="X"></a></li>
+                            <li><a href="https://www.instagram.com" aria-label="Instagram"><img src="./images/Icons/instagram.png" alt="Instagram"></a></li>
+                            <li><a href="https://www.LinkedIn.com" aria-label="LinkedIn"><img src="./images/Icons/linkedin.png" alt="LinkedIn"></a></li>
+                            <li><a href="https://www.youtube.com" aria-label="YouTube"><img src="./images/Icons/youtube.png" alt="YouTube"></a></li>
+                        </ul>
+                    </div>
+                   
+                    <div class="col-12">
+                        <p class="copyright-text mb-0">Copyright: Parallox Airlines Limited</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
 
 		<!-- Bootstrap JS Dependency -->
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
