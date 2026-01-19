@@ -1,0 +1,76 @@
+const jwt = require("jsonwebtoken");
+require('dotenv').config();
+
+module.exports.createAccessToken = (user) => {
+    const data = {
+        id : user._id,
+        email : user.email,
+        isAdmin : user.isAdmin
+    };
+    console.log(`Created Access Token for User ${user.id}`)
+    return jwt.sign(data, process.env.JWT_SECRET_KEY, {});
+};
+
+module.exports.verify = (req, res, next) => {
+    console.log("JWT Verification");
+
+    let token = req.headers.authorization;
+
+    if(typeof token === "undefined"){
+        return res.send({ auth: "Failed. No Token" });
+    } else {
+        // console.log(token);      
+        token = token.slice(7, token.length);
+
+        jwt.verify(token, process.env.JWT_SECRET_KEY, function(err, decodedToken){
+            
+            if(err){
+                console.error("Verification failed");
+                return res.status(403).send({
+                    auth: "Failed",
+                    message: err.message
+                });
+
+            } else {
+
+                console.log("Verified Credentials:");
+                console.log(decodedToken);
+
+                req.user = decodedToken;
+
+                next();
+            }
+        })
+    }
+};
+
+module.exports.verifyAdmin = (req, res, next) => {
+    if(req.user.isAdmin){
+        next();
+    } else {
+        return res.status(403).send({
+            auth: "Failed",
+            message: "Action Forbidden"
+        });
+    }
+}
+
+module.exports.errorHandler = (err, req, res, next) => {
+    console.error(err);
+
+    const statusCode = err.status || 500;
+    const errorMessage = err.message || 'Internal Server Error';
+
+    res.status(statusCode).json({
+        error: errorMessage,
+        details: err.details || null
+    });
+};
+
+module.exports.isLoggedIn = (req, res, next) => {
+    if(req.user) {
+        next();
+    } else {
+        res.sendStatus(401);
+    }
+}

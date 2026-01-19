@@ -1,0 +1,57 @@
+const mongoose = require('mongoose');
+
+const bookingSchema = new mongoose.Schema({
+	passengers: [{
+				userId: {
+        			type : mongoose.Schema.Types.ObjectId,
+        			ref : "User"
+    			},
+    			fareClassId: {
+        			type : mongoose.Schema.Types.ObjectId,
+        			ref : "FareClass"
+    			},
+    			seatId: {
+        			type : mongoose.Schema.Types.ObjectId,
+        			ref : "Seat"
+    			}
+	}],
+    scheduleId : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "Schedule"
+    },
+    addOns : [{
+    			ancillaryServiceId : {
+        			type : mongoose.Schema.Types.ObjectId,
+       				ref : "AncillaryService"
+    			},
+    			quantity : {
+    				type : Number
+    			}
+    }],
+	status : {
+		type : String,
+		enum : ["Booked", "Cancelled", "Checked-in"],
+		default : "Booked"
+	},
+	paymentStatus : {
+		type : String,
+		enum : ["Pending", "Confirmed", "Failed"],
+		default : "Pending"
+	},
+	totalPrice : {
+		type : Number,
+		required : [true, 'Price is required.']
+	},
+	bookingReference: {
+    	type : String,
+    	unique : true,
+    	required : true,
+    	uppercase : true
+	},
+    createdAt: {
+        type : Date,
+        default : Date.now
+    }
+});
+
+module.exports = mongoose.model('Booking', bookingSchema);
