@@ -13,7 +13,12 @@ const bookingSchema = new mongoose.Schema({
     			seatId: {
         			type : mongoose.Schema.Types.ObjectId,
         			ref : "Seat"
-    			}
+    			},
+				status : {
+					type : String,
+					enum : ["Booked", "Cancelled", "Checked-in"],
+					default : "Booked"
+				}
 	}],
     scheduleId : {
         type : mongoose.Schema.Types.ObjectId,
@@ -28,11 +33,6 @@ const bookingSchema = new mongoose.Schema({
     				type : Number
     			}
     }],
-	status : {
-		type : String,
-		enum : ["Booked", "Cancelled", "Checked-in"],
-		default : "Booked"
-	},
 	paymentStatus : {
 		type : String,
 		enum : ["Pending", "Confirmed", "Failed"],
