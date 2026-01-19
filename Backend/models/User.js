@@ -38,6 +38,16 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: null
     },
+    paymentInfo : [{
+        paymentType : {
+            type : String,
+            default : null
+        },
+        accountDetail : {
+            type : String,
+            default : null
+        }
+    }],
     isRegistered: {
         type: Boolean,
         default: false
