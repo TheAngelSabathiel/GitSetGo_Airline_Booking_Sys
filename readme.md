@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./images/icon_black2.png" alt="Parallox - Airline Booking and Management System Logo" />
+  <img src="./Code_Mockup/images/icon_black2.png" alt="Parallox - Airline Booking and Management System Logo" />
 </p>
 <h1 align="center">Parallox - Airline Booking and Management System<br>Technical Specifications Document</h1>
 
