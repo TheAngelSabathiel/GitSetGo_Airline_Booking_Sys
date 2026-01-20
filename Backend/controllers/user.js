@@ -108,6 +108,45 @@ module.exports.loginUser = (req, res) => {
     .catch(error => errorHandler(error, req, res));
 }
 
+module.exports.updateUserInfo = (req, res) => {
+
+	const allowedList = [
+		"title", "firstName", "lastName", "middleName",
+		"phoneNo", "username", "address"
+	];
+
+	let query = {};
+
+	allowedList.forEach(property => {
+		if (req.body[property] !== "" && req.body[property] != null) {
+			query[property] = req.body[property]
+		}
+	});
+
+	if (Object.keys(query).length === 0) {
+        return res.status(400).send({
+            error: "No valid fields provided for update"
+        });
+    }
+
+	User.findByIdAndUpdate(req.user.id, query, { new : true }).select("-password")
+	.then(user => {
+		if (!user) {
+			return res.status(404).send({
+				error : "User not found"
+			})
+		}
+
+		return res.status(200).send({
+			success : true,
+			message : "User info updated successfully",
+			updatedUser : user
+		})
+	})
+	.catch(error => errorHandler(error, req, res));
+
+}
+
 module.exports.getProfile = (req, res) => {
 
 	User.findById(req.user.id).select("-password")
@@ -128,8 +167,10 @@ module.exports.updatePassword = (req, res) => {
 			error : "Password must be at least 8 characters"
 		});
 	}
-
-	User.findByIdAndUpdate(req.user.id, { password : bcrypt.hashSync(req.body.newPassword, 12) }, { new : true })
+	bcrypt.hash(req.body.newPassword, 12)
+	.then(hashedPassword => {
+		return User.findByIdAndUpdate(req.user.id, { password : hashedPassword }, { new : true });
+	})
 	.then(user => {
 		if (!user) {
 			return	res.status(404).send({
@@ -142,4 +183,33 @@ module.exports.updatePassword = (req, res) => {
 		});
 	})
 	.catch(error => errorHandler(error, req, res));
+}
+
+module.exports.setAsAdmin = (req, res) => {
+	const emailRegex = /^[^\s@]+@[^\s@.]+\.[^\s@]+$/;
+    let query = emailRegex.test(req.body.email) 
+    	? { email : req.body.email , isRegistered : true }
+    	: { username : req.body.email , isRegistered : true }
+
+    User.findOneAndUpdate(query, { isAdmin : true })
+    .then(user => {
+    	if (!user) {
+    		return res.status(404).send({
+    			error : "User not found"
+    		});
+    	}
+
+    	if (user.isAdmin === true) {
+    		return res.status(200).send({
+    			message : "Nominated User is already an admin"
+    		});
+    	}
+
+    	return res.status(200).send({
+    		success : true,
+    		message : `${req.body.email} was set as an admin successfully`
+    	});
+    })
+    .catch(error => errorHandler(error, req, res));
+
 }
