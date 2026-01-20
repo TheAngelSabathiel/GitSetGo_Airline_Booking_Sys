@@ -5,7 +5,9 @@ module.exports.createAccessToken = (user) => {
     const data = {
         id : user._id,
         email : user.email,
-        isAdmin : user.isAdmin
+        isAdmin : user.isAdmin,
+        isVerified : user.isVerified,
+        isRegistered : user.isRegistered
     };
     console.log(`Created Access Token for User ${user.id}`)
     return jwt.sign(data, process.env.JWT_SECRET_KEY, {});

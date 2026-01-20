@@ -66,6 +66,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: null
     },
+    address: {
+        type: String,
+        default: null
+    },
     picture: {
         path : { type: String, default: null },
         filename : { type: String, default: null }
