@@ -18,4 +18,6 @@ router.patch("/set-as-admin", verify, verifyAdmin, userController.setAsAdmin);
 
 router.patch("/update-payment-info", verify, userController.updatePaymentInfo);
 
+router.patch("/verify", verify, userController.verifyUser);
+
 module.exports = router;
