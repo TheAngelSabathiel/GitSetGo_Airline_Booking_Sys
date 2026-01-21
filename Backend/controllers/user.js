@@ -237,3 +237,27 @@ module.exports.updatePaymentInfo = (req, res) => {
 	})
 	.catch(error => errorHandler(error, req, res));
 }
+
+module.exports.verifyUser = (req, res) => {
+	User.findByIdAndUpdate(req.user.id, { isVerified : true }).select("isVerified googleId")
+	.then(user => {
+		if (!user) {
+			return res.status(404).send({
+				error : "User not found"
+			})
+		}
+
+		if (user.isVerified) {
+			return res.status(200).send({
+				message : "User is already verified"
+			})
+		}
+
+		return res.status(200).send({
+			success : true,
+			message : "User is verified successfully",
+			user : user
+		})
+	})
+	.catch(error => errorHandler(error, req, res))
+}
