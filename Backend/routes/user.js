@@ -10,6 +10,8 @@ router.post("/login", userController.loginUser);
 
 router.patch("/update-info", verify, userController.updateUserInfo);
 
+router.patch("/upload-pic", verify, userController.uploadProfilePic);
+
 router.get("/get-profile", verify, userController.getProfile);
 
 router.patch("/update-password", verify, userController.updatePassword);
