@@ -16,6 +16,8 @@ router.get("/get-profile", verify, userController.getProfile);
 
 router.patch("/update-password", verify, userController.updatePassword);
 
+router.patch("/reset-password", userController.resetPassword);
+
 router.patch("/set-as-admin", verify, verifyAdmin, userController.setAsAdmin);
 
 router.patch("/update-payment-info", verify, userController.updatePaymentInfo);
