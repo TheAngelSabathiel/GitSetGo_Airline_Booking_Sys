@@ -147,6 +147,45 @@ module.exports.updateUserInfo = (req, res) => {
 
 }
 
+module.exports.uploadProfilePic = (req, res) => {
+	User.findById(req.user.id).select("picture")
+	.then(user => {
+		if (!user) {
+			res.status(404).send({
+				error : "User not found"
+			});
+			return null;
+		}
+
+		const oldPicturePublicId = user.picture?.filename || null;
+		user.picture = req.body.picture;
+
+		return user.save()
+		.then(savedUser => {
+			return {
+				oldPicturePublicId : oldPicturePublicId,
+				user : savedUser
+			};
+		})
+	})
+	.then(updatedUser => {
+		if (!updatedUser) return;
+		if (updatedUser.oldPicturePublicId) {
+			cloudinary.uploader.destroy(updatedUser.oldPicturePublicId, (error, result) => {
+				if (error) {console.error("Cloudinary Delete Error: ", error);}
+				else {console.log("Cloudinary Delete Result: ", result);}
+			})
+		}
+
+		return res.status(200).send({
+			success : true,
+			message : "Profile picture updated successfully",
+			user : updatedUser.user
+		})
+	})
+	.catch(error => errorHandler(error, req, res));
+}
+
 module.exports.getProfile = (req, res) => {
 
 	User.findById(req.user.id).select("-password")
