@@ -224,6 +224,30 @@ module.exports.updatePassword = (req, res) => {
 	.catch(error => errorHandler(error, req, res));
 }
 
+module.exports.resetPassword = (req, res) => {
+	if (req.body.newPassword.length < 8) {
+		return res.status(400).send({
+			error : "Password must be at least 8 characters"
+		});
+	}
+	bcrypt.hash(req.body.newPassword, 12)
+	.then(hashedPassword => {
+		return User.findOneAndUpdate({ email : req.body.email, isRegistered : true }, { password : hashedPassword }, { new : true });
+	})
+	.then(user => {
+		if (!user) {
+			return	res.status(404).send({
+				error : "User not found"
+			});
+		}
+
+		return res.status(200).send({
+			message : "Password changed successfully"
+		});
+	})
+	.catch(error => errorHandler(error, req, res));
+}
+
 module.exports.setAsAdmin = (req, res) => {
 	const emailRegex = /^[^\s@]+@[^\s@.]+\.[^\s@]+$/;
     let query = emailRegex.test(req.body.email) 
