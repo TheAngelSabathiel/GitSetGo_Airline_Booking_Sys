@@ -16,4 +16,6 @@ router.patch("/update-password", verify, userController.updatePassword);
 
 router.patch("/set-as-admin", verify, verifyAdmin, userController.setAsAdmin);
 
+router.patch("/update-payment-info", verify, userController.updatePaymentInfo);
+
 module.exports = router;
