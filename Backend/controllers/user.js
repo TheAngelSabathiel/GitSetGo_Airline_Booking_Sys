@@ -359,19 +359,18 @@ module.exports.successGoogleAuth = (req, res) => {
             	console.log('Error while destroying session', err);
         	} else {
             	console.log('Session destroyed');
-        	}
+			}
+			return res.status(200).send(`
+			        <script>
+			            if (window.opener) {
+			                window.opener.postMessage(${JSON.stringify(messageData)}, "${targetOrigin}");
+			            } else {
+			                console.error("Opener window not found.");
+			            }  
+						window.close();
+			        </script>
+			    `);
     	});
-		
-		return res.status(200).send(`
-            <script>
-                if (window.opener) {
-                    window.opener.postMessage(${JSON.stringify(messageData)}, "${targetOrigin}");
-                    window.close();
-                } else {
-                    console.error("Opener window not found.");
-                }
-            </script>
-        `);
     })
     .catch(error => errorHandler(error, req, res));
 }
