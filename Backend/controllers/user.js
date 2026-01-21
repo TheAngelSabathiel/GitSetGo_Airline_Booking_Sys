@@ -3,6 +3,7 @@ const { errorHandler, createAccessToken } = require("../auth");
 const bcrypt = require("bcryptjs");
 const passport = require("../passport");
 const { cloudinary } = require("../cloudinaryConfig");
+require('dotenv').config();
 
 module.exports.registerUser = (req, res) => {
 
@@ -323,4 +324,54 @@ module.exports.verifyUser = (req, res) => {
 		})
 	})
 	.catch(error => errorHandler(error, req, res))
+}
+
+module.exports.successGoogleAuth = (req, res) => {
+    const authEmail = req.user.emails[0].value;
+    const googleData = req.user;
+    const targetOrigin = process.env.TARGET_ORIGIN;
+    User.findOne({ email : authEmail , isRegistered : true })
+    .then(foundUser => {
+		let messageData;
+		if (foundUser) {
+            console.log(`User ${foundUser.id} logged in successfully`);
+            const accessToken = createAccessToken(foundUser);
+            
+            messageData = {
+                access: accessToken,
+                isVerified: true,
+                googleId: googleData.id
+            };
+        } else {
+            console.log("New user detected via Google OAuth");
+            messageData = {
+                firstName: googleData.name.givenName,
+                lastName: googleData.name.familyName,
+                email: googleData.emails[0].value,
+                isVerified: true,
+                googleId: googleData.id,
+                picture: googleData.photos[0].value
+            };
+        }
+
+		req.session.destroy((err) => {
+        	if(err) {
+            	console.log('Error while destroying session', err);
+        	} else {
+            	console.log('Session destroyed');
+        	}
+    	});
+		
+		return res.status(200).send(`
+            <script>
+                if (window.opener) {
+                    window.opener.postMessage(${JSON.stringify(messageData)}, "${targetOrigin}");
+                    window.close();
+                } else {
+                    console.error("Opener window not found.");
+                }
+            </script>
+        `);
+    })
+    .catch(error => errorHandler(error, req, res));
 }
