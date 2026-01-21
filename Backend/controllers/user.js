@@ -213,3 +213,27 @@ module.exports.setAsAdmin = (req, res) => {
     .catch(error => errorHandler(error, req, res));
 
 }
+
+module.exports.updatePaymentInfo = (req, res) => {
+	if (!req.body.paymentInfo) {
+		return res.status(400).send({
+			error : "Payment info is required"
+		})
+	}
+
+	User.findByIdAndUpdate(req.user.id, { paymentInfo : req.body.paymentInfo }, { new : true }).select("paymentInfo")
+	.then(user => {
+		if (!user) {
+			return res.status(404).send({
+				error : "User not found"
+			})
+		}
+
+		return res.status(200).send({
+			success : true,
+			user : user,
+			message : "Payment info updated successfully"
+		})
+	})
+	.catch(error => errorHandler(error, req, res));
+}
