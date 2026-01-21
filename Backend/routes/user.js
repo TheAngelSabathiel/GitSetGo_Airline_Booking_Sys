@@ -24,4 +24,32 @@ router.patch("/update-payment-info", verify, userController.updatePaymentInfo);
 
 router.patch("/verify", verify, userController.verifyUser);
 
+router.get('/google', 
+        passport.authenticate('google', {
+            scope: ['email', 'profile'],
+            prompt: "select_account"
+        })
+    );
+
+router.get('/google/callback', 
+        passport.authenticate('google', {
+            failureRedirect: '/users/failed',
+        }),
+
+        function(req, res) {
+            res.redirect('/users/success');
+        }
+                  
+    );
+
+router.get('/failed', (req, res) => {
+    console.log("User is not authenticated");
+    res.status(400).send("Failed");
+});
+
+router.get('/success', (req, res) => {
+    console.log(req.user);
+    userController.successGoogleAuth;
+});
+
 module.exports = router;
