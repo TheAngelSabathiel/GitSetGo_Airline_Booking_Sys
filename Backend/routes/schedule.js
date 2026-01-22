@@ -3,12 +3,15 @@ const router = express.Router();
 const { verify, verifyAdmin } = require("../auth");
 const {
     createSchedule,
+    filterSchedulesByStatus,
     getAllSchedules,
     searchFlights,
     updateStatus
 } = require('../controllers/scheduleController');
 
 router.post("/", verify, verifyAdmin, createSchedule);
+
+router.post("/filter-by-status", verify, filterSchedulesByStatus);
 
 // Route for searching flights (Best for the customer-facing search bar)
 // Example: /api/schedules/search?from=ID&to=ID&date=2024-05-20
