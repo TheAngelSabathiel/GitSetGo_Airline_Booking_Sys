@@ -125,23 +125,15 @@ module.exports.searchFlights = (req, res) => {
     .catch(error => errorHandler(error, req, res));
 }
 
-
-// @desc    Update flight status (Delayed, Cancelled, etc.)
-// @route   PATCH /api/schedules/:id/status
-exports.updateStatus = async (req, res) => {
-    try {
-        const { status } = req.body;
-        const schedule = await Schedule.findByIdAndUpdate(
-            req.params.id, 
-            { status }, 
-            { new: true, runValidators: true }
-        );
-
-        if (!schedule) {
-            return res.status(404).json({ success: false, message: "Schedule not found" });
+module.exports.updateStatus = (req, res) => {
+    const { status } = req.body;
+    Schedule.findByIdAndUpdate(req.params.scheduleId, { status }).select("status")
+    .then(schedule => {
+        if (schedule.status === status) {
+            return res.status(200).json({ message : `Status was already set to ${status}`);
         }
-        res.status(200).json({ success: true, data: schedule });
-    } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
-    }
-};
+
+        return res.status(200).send({ success : true, data : schedule, message : "Status was changed successfully"});
+    })
+    .catch(error =>errorHandler(error, req, res));
+}
