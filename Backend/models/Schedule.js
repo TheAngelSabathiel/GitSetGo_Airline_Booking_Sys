@@ -27,10 +27,6 @@ const scheduleSchema = new mongoose.Schema({
     	type : Date,
     	required : true
     },
-    price : {
-    	type : Number,
-    	required : true
-    },
     status : {
     	type : String,
     	enum : ["Active", "Delayed", "Cancelled", "Finished"],
