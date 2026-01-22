@@ -17,6 +17,20 @@ const aircraftSchema = new mongoose.Schema({
 		type : Number,
 		required : [true, 'Please provide capacity of Business Seating.']
 	},
+	price : {
+		baseFee : {
+			type : Number,
+			required : true
+		},
+		distanceRate : {
+			type : Number,
+			required : true
+		},
+		operationalRate : {
+			type : Number,
+			required : true
+		},
+	},
     registeredOn : {
         type : Date,
         default : Date.now
