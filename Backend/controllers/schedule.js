@@ -130,7 +130,7 @@ module.exports.updateStatus = (req, res) => {
     Schedule.findByIdAndUpdate(req.params.scheduleId, { status }).select("status")
     .then(schedule => {
         if (schedule.status === status) {
-            return res.status(200).json({ message : `Status was already set to ${status}`);
+            return res.status(200).send({ message : `Status was already set to ${status}`);
         }
 
         return res.status(200).send({ success : true, data : schedule, message : "Status was changed successfully"});
