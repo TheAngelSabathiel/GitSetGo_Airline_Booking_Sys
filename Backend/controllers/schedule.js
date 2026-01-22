@@ -1,23 +1,69 @@
 const Schedule = require('../models/Schedule');
+const { errorHandler } = require("../auth");
 
-// @desc    Create a new flight schedule
-// @route   POST /api/schedules
-exports.createSchedule = async (req, res) => {
-    try {
-        // Logic check: Ensure arrival and departure airports aren't the same
-        if (req.body.departureAirportId === req.body.arrivalAirportId) {
-            return res.status(400).json({ 
+module.exports.createSchedule = (req, res) => {
+    if (req.body.departureAirportId === req.body.arrivalAirportId) {
+            return res.status(400).send({ 
                 success: false, 
                 message: "Departure and Arrival airports cannot be the same." 
             });
+    }
+
+    const bufferMs = 1 * 60 * 60 * 1000; 
+
+    Schedule.findOne({
+            aircraftId : req.body.aircraftId,
+            $expr : {
+                $and : [
+                    {
+                        $lt : [
+                            { $subtract : [ "$departureTime" , bufferMs ] }
+                            ,
+                            new Date(req.body.arrivalTime)
+                        ]
+                    }
+                    ,
+                    {
+                        $gt : [
+                            { $add : [ "$arrivalTime" , bufferMs ] }
+                            ,
+                            new Date(req.body.departureTime)
+                        ]
+                    }
+                ]
+            }
+        })
+        .select("flightReference")
+    .then(conflict => {
+        if (conflict) {
+            res.status(409).send({
+            message: "Aircraft unavailable due to turnaround requirements (1h buffer)",
+            conflict: conflict.flightReference
+            });
+            return null;
         }
 
-        const schedule = await Schedule.create(req.body);
-        res.status(201).json({ success: true, data: schedule });
-    } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
-    }
-};
+        const schedule = new Schedule({
+            flightReference : req.body.aircraftCode + (Math.floor(Math.random()*999)).toString(),
+            aircraftId : req.body.aircraftId,
+            arrivalAirportId : req.body.arrivalAirportId,
+            departureAirportId : req.body.departureAirportId,
+            arrivalTime : req.body.arrivalTime,
+            departuretime : req.body.departureTime
+        });
+
+        return schedule.save()
+    })
+    .then(savedSchedule => {
+        if (savedSchedule == null) {
+            return;
+        }
+
+        return res.status(201).send({ success: true, data: savedSchedule });       
+    })
+    .catch(error => errorHandler(error, req, res)});
+}
+
 
 // @desc    Get all schedules with full Aircraft and Airport details
 // @route   GET /api/schedules
