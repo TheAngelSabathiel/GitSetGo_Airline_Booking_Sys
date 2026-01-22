@@ -11,7 +11,7 @@ const {
 
 router.post("/", verify, verifyAdmin, createSchedule);
 
-router.post("/filter-by-status", verify, filterSchedulesByStatus);
+router.post("/filter-by-status", verify, verifyAdmin, filterSchedulesByStatus);
 
 router.get("/", verify, verifyAdmin, getAllSchedules);
 
