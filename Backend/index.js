@@ -5,10 +5,10 @@ const cors = require("cors");
 
 // Routes
 const userRoutes = require("./routes/user");
-const bookingRoutes = require("./routes/booking");
-const scheduleRoutes = require("./routes/schedule");
-const aircraftRoutes = require("./routes/aircraft");
-const airportRoutes = require("./routes/airport");
+// const bookingRoutes = require("./routes/booking");
+// const scheduleRoutes = require("./routes/schedule");
+// const aircraftRoutes = require("./routes/aircraft");
+// const airportRoutes = require("./routes/airport");
 // const flightSeatRoutes = require("./routes/flightSeat");
 // const fareClassRoutes = require("./routes/fareClass");
 // const ancillaryServiceRoutes = require("./routes/ancillaryService");
@@ -50,10 +50,10 @@ mongoose.connection.once("open", () => console.log("Now connected to MongoDB Atl
 //Routes Middlewares
 
 app.use("/users", userRoutes);
-app.use("/bookings", bookingRoutes);
-app.use("/schedules", scheduleRoutes);
-app.use("/aircrafts", aircraftRoutes);
-app.use("/airports", airportRoutes);
+// app.use("/bookings", bookingRoutes);
+// app.use("/schedules", scheduleRoutes);
+// app.use("/aircrafts", aircraftRoutes);
+// app.use("/airports", airportRoutes);
 // app.use("/flight-seats", flightSeatRoutes);
 // app.use("/fare-classes", fareClassRoutes);
 // app.use("/ancillary-services", ancillaryServiceRoutes);
