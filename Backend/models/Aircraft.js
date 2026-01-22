@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const aircraftSchema = new mongoose.Schema({
+	airline : {
+		type : String,
+		required : [true, 'Airline is required.']
+	},
 	model : {
 		type : String,
 		required : [true, 'Aircraft model is required.']
