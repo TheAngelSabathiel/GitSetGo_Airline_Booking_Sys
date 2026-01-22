@@ -5,7 +5,7 @@ const cors = require("cors");
 
 // Routes
 const userRoutes = require("./routes/user");
-// const bookingRoutes = require("./routes/booking");
+const bookingRoutes = require("./routes/booking");
 const scheduleRoutes = require("./routes/schedule");
 const aircraftRoutes = require("./routes/aircraft");
 const airportRoutes = require("./routes/airport");
@@ -50,7 +50,7 @@ mongoose.connection.once("open", () => console.log("Now connected to MongoDB Atl
 //Routes Middlewares
 
 app.use("/users", userRoutes);
-// app.use("/bookings", bookingRoutes);
+app.use("/bookings", bookingRoutes);
 app.use("/schedules", scheduleRoutes);
 app.use("/aircrafts", aircraftRoutes);
 app.use("/airports", airportRoutes);
