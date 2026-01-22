@@ -15,7 +15,7 @@ router.post("/filter-by-status", verify, filterSchedulesByStatus);
 
 router.get("/", verify, verifyAdmin, getAllSchedules);
 
-router.get('/search', searchFlights);
+router.post('/search', searchFlights);
 
 router.patch('/:scheduleId/status', verify, verifyAdmin, updateStatus);
 
