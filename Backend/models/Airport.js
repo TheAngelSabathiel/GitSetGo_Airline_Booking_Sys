@@ -25,10 +25,23 @@ const airportSchema = new mongoose.Schema({
 		type : String,
 		required : [true, 'Time zone is required.']
 	},
+	location: {
+    	type: {
+      		type: String, 
+      		enum: ['Point'], 
+      		default: 'Point'
+    	},
+    	coordinates: {
+      		type: [Number], // [Longitude, Latitude]
+      		required: true
+    	}
+  	},
     isActive : {
     	type : Boolean,
     	default : true
     }
 });
+
+airportSchema.index({ location: "2dsphere" });
 
 module.exports = mongoose.model('Airport', airportSchema);
