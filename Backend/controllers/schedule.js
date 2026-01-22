@@ -64,15 +64,29 @@ module.exports.createSchedule = (req, res) => {
     .catch(error => errorHandler(error, req, res)});
 }
 
-
+module.exports.getSchedulesByStatus = (req, res) => {
+    Schedule.find({status : req.body.status})
+        .populate('aircraftId', 'airline model capacityEconomy capacityBusiness')
+        .populate('departureAirportId', 'name iataCode city country')
+        .populate('arrivalAirportId', 'name iataCode city country')
+        .sort({ departureTime: 1 })
+    .then(schedules => {
+        return res.status(200).json({ 
+                success: true, 
+                count: schedules.length, 
+                data: schedules 
+                });
+    })
+    .catch(error => errorHandler(error, req, res));
+}
 // @desc    Get all schedules with full Aircraft and Airport details
 // @route   GET /api/schedules
 exports.getAllSchedules = async (req, res) => {
     try {
         const schedules = await Schedule.find()
             .populate('aircraftId', 'model capacityEconomy capacityBusiness')
-            .populate('departureAirportId', 'name iataCode city')
-            .populate('arrivalAirportId', 'name iataCode city');
+            .populate('departureAirportId', 'name iataCode city country')
+            .populate('arrivalAirportId', 'name iataCode city country');
 
         res.status(200).json({ 
             success: true, 
