@@ -11,7 +11,7 @@ const aircraftRoutes = require("./routes/aircraft");
 const airportRoutes = require("./routes/airport");
 const flightSeatRoutes = require("./routes/flightSeat");
 const fareClassRoutes = require("./routes/fareClass");
-// const ancillaryServiceRoutes = require("./routes/ancillaryService");
+const ancillaryServiceRoutes = require("./routes/ancillaryService");
 const codeRoutes = require("./routes/code");
 
 // Google API Client
@@ -56,7 +56,7 @@ app.use("/aircrafts", aircraftRoutes);
 app.use("/airports", airportRoutes);
 app.use("/flight-seats", flightSeatRoutes);
 app.use("/fare-classes", fareClassRoutes);
-// app.use("/ancillary-services", ancillaryServiceRoutes);
+app.use("/ancillary-services", ancillaryServiceRoutes);
 app.use("/codes", codeRoutes);
 
 
