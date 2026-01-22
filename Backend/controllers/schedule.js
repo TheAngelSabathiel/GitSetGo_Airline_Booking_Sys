@@ -66,12 +66,12 @@ module.exports.createSchedule = (req, res) => {
 
 module.exports.filterSchedulesByStatus = (req, res) => {
     Schedule.find({status : req.body.status})
-        .populate('aircraftId', 'airline model capacityEconomy capacityBusiness')
-        .populate('departureAirportId', 'name iataCode city country')
-        .populate('arrivalAirportId', 'name iataCode city country')
+        .populate('aircraftId', 'airline model capacityEconomy capacityBusiness price')
+        .populate('departureAirportId', 'name iataCode city country location')
+        .populate('arrivalAirportId', 'name iataCode city country location')
         .sort({ departureTime: 1 })
     .then(schedules => {
-        return res.status(200).json({ 
+        return res.status(200).send({ 
                 success: true, 
                 count: schedules.length, 
                 data: schedules 
@@ -79,52 +79,52 @@ module.exports.filterSchedulesByStatus = (req, res) => {
     })
     .catch(error => errorHandler(error, req, res));
 }
-// @desc    Get all schedules with full Aircraft and Airport details
-// @route   GET /api/schedules
-exports.getAllSchedules = async (req, res) => {
-    try {
-        const schedules = await Schedule.find()
-            .populate('aircraftId', 'model capacityEconomy capacityBusiness')
-            .populate('departureAirportId', 'name iataCode city country')
-            .populate('arrivalAirportId', 'name iataCode city country');
 
-        res.status(200).json({ 
-            success: true, 
-            count: schedules.length, 
-            data: schedules 
-        });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+module.exports.getAllSchedules = (req, res) => {
+    Schedule.find()
+        .populate('aircraftId', 'airline model capacityEconomy capacityBusiness price')
+        .populate('departureAirportId', 'name iataCode city country location')
+        .populate('arrivalAirportId', 'name iataCode city country location')
+        .sort({ departureTime: 1 })
+    .then(schedules => {
+        return res.status(200).send({ 
+                success: true, 
+                count: schedules.length, 
+                data: schedules 
+                });
+    })
+    .catch(error => errorHandler(error, req, res));
+}
+
+module.exports.searchFlights = (req, res) => {
+    const { from, to, date } = req.body;
+
+    let query = { status: "Active" };
+    if (from) query.departureAirportId = from;
+    if (to) query.arrivalAirportId = to;
+
+    if (date) {
+        const start = new Date(date);
+        const end = new Date(date);
+        end.setDate(end.getDate() + 1);
+        query.departureTime = { $gte: start, $lt: end };
     }
-};
 
-// @desc    Get schedules for a specific route (Search)
-// @route   GET /api/schedules/search
-exports.searchFlights = async (req, res) => {
-    try {
-        const { from, to, date } = req.query;
-        
-        // Build a query object
-        let query = { status: "Active" };
-        if (from) query.departureAirportId = from;
-        if (to) query.arrivalAirportId = to;
-        
-        // If a date is provided, find schedules for that specific day
-        if (date) {
-            const start = new Date(date);
-            const end = new Date(date);
-            end.setDate(end.getDate() + 1);
-            query.departureTime = { $gte: start, $lt: end };
-        }
+    Schedule.find(query)
+        .populate('aircraftId', 'airline model capacityEconomy capacityBusiness price')
+        .populate('departureAirportId', 'name iataCode city country location')
+        .populate('arrivalAirportId', 'name iataCode city country location')
+        .sort({ departureTime: 1 })
+    .then(schedules => {
+        return res.status(200).send({ 
+                success: true, 
+                count: schedules.length, 
+                data: schedules 
+                });
+    })
+    .catch(error => errorHandler(error, req, res));
+}
 
-        const results = await Schedule.find(query)
-            .populate('departureAirportId arrivalAirportId');
-            
-        res.status(200).json({ success: true, data: results });
-    } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
-    }
-};
 
 // @desc    Update flight status (Delayed, Cancelled, etc.)
 // @route   PATCH /api/schedules/:id/status
