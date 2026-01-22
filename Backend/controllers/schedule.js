@@ -64,7 +64,7 @@ module.exports.createSchedule = (req, res) => {
     .catch(error => errorHandler(error, req, res)});
 }
 
-module.exports.getSchedulesByStatus = (req, res) => {
+module.exports.filterSchedulesByStatus = (req, res) => {
     Schedule.find({status : req.body.status})
         .populate('aircraftId', 'airline model capacityEconomy capacityBusiness')
         .populate('departureAirportId', 'name iataCode city country')
