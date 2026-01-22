@@ -7,7 +7,7 @@ const fareClassSchema = new mongoose.Schema({
 	},
 	classType : {
 		type : String,
-		enum : ["Economy", "Business"]
+		enum : ["Economy", "Business"],
 		required : [true, 'Fare Class Type is required.']
 	},
 	baggageAllowance : {
