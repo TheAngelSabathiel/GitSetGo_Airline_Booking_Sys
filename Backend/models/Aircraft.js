@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const aircraftSchema = new mongoose.Schema({
-	airlineId : {
-		type : mongoose.Schema.Types.ObjectId,
-        ref : "Airline"
-	},
 	model : {
 		type : String,
 		required : [true, 'Aircraft model is required.']
