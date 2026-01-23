@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const aircraftSchema = new mongoose.Schema({
-	airline : {
+	airlineId : {
 		type : mongoose.Schema.Types.ObjectId,
         ref : "Airline"
 	},
