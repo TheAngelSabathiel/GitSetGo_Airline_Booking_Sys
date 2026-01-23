@@ -1,4 +1,5 @@
 const Schedule = require('../models/Schedule');
+const Aircraft = require('../models/Aircraft');
 const { errorHandler } = require("../auth");
 
 module.exports.createSchedule = (req, res) => {
@@ -11,7 +12,8 @@ module.exports.createSchedule = (req, res) => {
 
     const bufferMs = 1 * 60 * 60 * 1000; 
 
-    Schedule.findOne({
+    Promise.all([
+        Schedule.findOne({
             aircraftId : req.body.aircraftId,
             $expr : {
                 $and : [
@@ -34,7 +36,10 @@ module.exports.createSchedule = (req, res) => {
             }
         })
         .select("flightReference")
-    .then(conflict => {
+        ,
+        Aircraft.findById(req.body.aircraftId).select("capacityEconomy capacityBusiness")
+    ])
+    .then(([conflict, aircraft]) => {
         if (conflict) {
             res.status(409).send({
             message: "Aircraft unavailable due to turnaround requirements (1h buffer)",
@@ -42,10 +47,17 @@ module.exports.createSchedule = (req, res) => {
             });
             return null;
         }
+        
+        if (!aircraft) {
+            res.status(404).send({message : "Aircraft not found"});
+            return null;
+        }
 
         const schedule = new Schedule({
             flightReference : req.body.aircraftCode + (Math.floor(Math.random()*999)).toString(),
             aircraftId : req.body.aircraftId,
+            availableEconomy : aircraft.capacityEconomy,
+            availableBusiness : aircraft.capacityBusiness,
             arrivalAirportId : req.body.arrivalAirportId,
             departureAirportId : req.body.departureAirportId,
             arrivalTime : req.body.arrivalTime,
