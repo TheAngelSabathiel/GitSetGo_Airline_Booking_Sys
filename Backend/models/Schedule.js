@@ -11,6 +11,14 @@ const scheduleSchema = new mongoose.Schema({
         type : mongoose.Schema.Types.ObjectId,
         ref : "Aircraft"
     },
+	capacityEconomy : {
+		type : Number,
+		required : true
+	},
+	capacityBusiness : {
+		type : Number,
+		required : true
+	},
 	arrivalAirportId: {
         type : mongoose.Schema.Types.ObjectId,
         ref : "Airport"
