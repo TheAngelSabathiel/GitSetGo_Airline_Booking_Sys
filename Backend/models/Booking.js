@@ -6,14 +6,14 @@ const bookingSchema = new mongoose.Schema({
         			type : mongoose.Schema.Types.ObjectId,
         			ref : "User"
     			},
-    			fareClassId: {
-        			type : mongoose.Schema.Types.ObjectId,
-        			ref : "FareClass"
-    			},
     			seatId: {
         			type : mongoose.Schema.Types.ObjectId,
         			ref : "Seat"
     			},
+				subtotal : {
+					type : Number,
+					required : [true, 'Price is required.']
+				},
 				status : {
 					type : String,
 					enum : ["Booked", "Cancelled", "Checked-in"],
