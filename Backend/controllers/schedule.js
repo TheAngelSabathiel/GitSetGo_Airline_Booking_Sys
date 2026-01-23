@@ -78,7 +78,7 @@ module.exports.createSchedule = (req, res) => {
 
 module.exports.filterSchedulesByStatus = (req, res) => {
     Schedule.find({status : req.body.status})
-        .populate('aircraftId', 'airlineId model capacityEconomy capacityBusiness price')
+        .populate('aircraftId', 'model capacityEconomy capacityBusiness price')
         .populate('departureAirportId', 'name iataCode city country location')
         .populate('arrivalAirportId', 'name iataCode city country location')
         .sort({ departureTime: 1 })
@@ -94,7 +94,7 @@ module.exports.filterSchedulesByStatus = (req, res) => {
 
 module.exports.getAllSchedules = (req, res) => {
     Schedule.find()
-        .populate('aircraftId', 'airlineId model capacityEconomy capacityBusiness price')
+        .populate('aircraftId', 'model capacityEconomy capacityBusiness price')
         .populate('departureAirportId', 'name iataCode city country location')
         .populate('arrivalAirportId', 'name iataCode city country location')
         .sort({ departureTime: 1 })
@@ -123,7 +123,7 @@ module.exports.searchFlights = (req, res) => {
     }
 
     Schedule.find(query)
-        .populate('aircraftId', 'airlineId model capacityEconomy capacityBusiness price')
+        .populate('aircraftId', 'model capacityEconomy capacityBusiness price')
         .populate('departureAirportId', 'name iataCode city country location')
         .populate('arrivalAirportId', 'name iataCode city country location')
         .sort({ departureTime: 1 })
