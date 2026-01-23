@@ -10,6 +10,10 @@ const bookingSchema = new mongoose.Schema({
         			type : mongoose.Schema.Types.ObjectId,
         			ref : "Seat"
     			},
+				baggage : {
+					type : Number,
+					default : 7
+				},
 				subtotal : {
 					type : Number,
 					required : [true, 'Price is required.']
