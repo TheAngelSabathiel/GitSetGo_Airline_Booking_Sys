@@ -40,28 +40,29 @@ const scheduleSchema = new mongoose.Schema({
     	enum : ["Active", "In-flight", "Delayed", "Cancelled", "Finished"],
     	default : "Active"
     }
-}, 
-{
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true }
-});
+}
+// , {
+//     toJSON: { virtuals: true },
+//     toObject: { virtuals: true }
+// }
+);
 
-scheduleSchema.virtual('computedStatus').get(function() {
-    const now = new Date();
+// scheduleSchema.virtual('computedStatus').get(function() {
+//     const now = new Date();
 
-    if (this.status === "Cancelled" || this.status === "Delayed") {
-        return this.status;
-    }
+//     if (this.status === "Cancelled" || this.status === "Delayed") {
+//         return this.status;
+//     }
 
-    if (now >= this.arrivalTime) {
-        return "Finished";
-    }
+//     if (now >= this.arrivalTime) {
+//         return "Finished";
+//     }
 
-    if (now >= this.departureTime && now < this.arrivalTime) {
-        return "In-flight";
-    }
+//     if (now >= this.departureTime && now < this.arrivalTime) {
+//         return "In-flight";
+//     }
 	
-    return "Active";
-});
+//     return "Active";
+// });
 
 module.exports = mongoose.model('Schedule', scheduleSchema);
