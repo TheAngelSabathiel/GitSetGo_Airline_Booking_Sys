@@ -11,15 +11,13 @@ const scheduleSchema = new mongoose.Schema({
         type : mongoose.Schema.Types.ObjectId,
         ref : "Aircraft"
     },
-	seating : {
-		economy : {
-			capacity : { type : Number },
-			available : { type : Number }
-		},
-		business : {
-			capacity : { type : Number },
-			available : { type : Number }
-		}
+	availableEconomy : {
+		type : Number,
+		required : true
+	},
+	availableBusiness : {
+		type : Number,
+		required : true
 	},
 	arrivalAirportId: {
         type : mongoose.Schema.Types.ObjectId,
