@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const ancillaryServiceSchema = new mongoose.Schema({
-	serviceType : {
-		type : String,
-		required : [true, 'Service Type is required.']
+	airlineId : {
+		type : mongoose.Schema.Types.ObjectId,
+        ref : "Airline"
 	},
 	name : {
 		type : String,
