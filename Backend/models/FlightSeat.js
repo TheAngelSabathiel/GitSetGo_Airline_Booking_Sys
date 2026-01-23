@@ -9,9 +9,10 @@ const flightSeatSchema = new mongoose.Schema({
         type : String,
         required : true
     },
-    fareClassId : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : "FareClass"
+    fareClass : {
+        type : String,
+		enum : ["Economy", "Business"],
+        default : "Economy"
     }
 });
 
