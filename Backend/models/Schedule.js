@@ -40,6 +40,10 @@ const scheduleSchema = new mongoose.Schema({
     	enum : ["Active", "In-flight", "Delayed", "Cancelled", "Finished"],
     	default : "Active"
     }
+}, 
+{
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 });
 
 scheduleSchema.virtual('computedStatus').get(function() {
