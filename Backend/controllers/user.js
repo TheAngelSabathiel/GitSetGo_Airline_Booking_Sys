@@ -303,7 +303,7 @@ module.exports.updatePaymentInfo = (req, res) => {
 }
 
 module.exports.verifyUser = (req, res) => {
-	User.findByIdAndUpdate(req.user.id, { isVerified : true }).select("isVerified googleId")
+	User.findByIdAndUpdate(req.user.id, { isVerified : true , googleId : req.body.googleId }).select("isVerified googleId")
 	.then(user => {
 		if (!user) {
 			return res.status(404).send({
