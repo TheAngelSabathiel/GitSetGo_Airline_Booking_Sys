@@ -13,6 +13,7 @@ const userRoutes = require("./routes/user");
 // const fareClassRoutes = require("./routes/fareClass");
 // const ancillaryServiceRoutes = require("./routes/ancillaryService");
 const codeRoutes = require("./routes/code");
+const promoRoutes = require("./routes/promo");
 
 // Google API Client
 const passport = require('passport');
@@ -58,6 +59,7 @@ app.use("/users", userRoutes);
 // app.use("/fare-classes", fareClassRoutes);
 // app.use("/ancillary-services", ancillaryServiceRoutes);
 app.use("/codes", codeRoutes);
+app.use("/promos", promoRoutes);
 
 
 

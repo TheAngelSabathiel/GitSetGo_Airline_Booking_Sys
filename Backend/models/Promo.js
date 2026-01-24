@@ -18,6 +18,10 @@ const promoSchema = new mongoose.Schema({
 		type : Number,
 		default : 0
 	},
+	limit : {
+		type : Number,
+		default : null
+	},
 	expiresAt : {
     type : Date,
     required : true
