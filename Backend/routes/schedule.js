@@ -5,15 +5,18 @@ const {
     createSchedule,
     filterSchedulesByStatus,
     getAllSchedules,
+    getScheduleDetails,
     searchFlights,
     updateStatus
-} = require('../controllers/scheduleController');
+} = require('../controllers/schedule');
 
 router.post("/", verify, verifyAdmin, createSchedule);
 
 router.post("/filter-by-status", verify, verifyAdmin, filterSchedulesByStatus);
 
 router.get("/", verify, verifyAdmin, getAllSchedules);
+
+router.get("/:scheduleId", getScheduleDetails);
 
 router.post('/search', searchFlights);
 

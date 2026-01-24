@@ -13,6 +13,10 @@ const airportSchema = new mongoose.Schema({
 		type : String,
 		required : [true, 'Airport name is required.']
 	},
+	description : {
+		type : String,
+		required : [true, 'Description is required.']
+	},
 	city : {
 		type : String,
 		required : [true, 'City is required.']
@@ -20,11 +24,7 @@ const airportSchema = new mongoose.Schema({
 	country : {
 		type : String,
 		required : [true, 'Country is required.']
-	},
-	timeZone : {
-		type : String,
-		required : [true, 'Time zone is required.']
-	},
+	}
 	location: {
     	type: {
       		type: String, 

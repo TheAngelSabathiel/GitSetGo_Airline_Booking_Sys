@@ -108,6 +108,21 @@ module.exports.getAllSchedules = (req, res) => {
     .catch(error => errorHandler(error, req, res));
 }
 
+module.exports.getScheduleDetails = (req, res) => {
+    Schedule.findById(req.params.id)
+        .populate('aircraftId', 'model capacityEconomy capacityBusiness price')
+        .populate('departureAirportId', 'name iataCode city country location')
+        .populate('arrivalAirportId', 'name iataCode city country location')
+    .then(schedule => {
+        if(!schedule) {
+            return res.status(404).send({message : "Schedule not found"});
+        }
+
+        return res.status(200).send(schedul);
+    })
+    .catch(error => errorHandler(error, req, res));
+}
+
 module.exports.searchFlights = (req, res) => {
     const { from, to, date } = req.body;
 
