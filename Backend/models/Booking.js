@@ -14,6 +14,11 @@ const bookingSchema = new mongoose.Schema({
 					type : Number,
 					default : 7
 				},
+				promo : {
+					code : { type : String },
+					name : { type : String },
+					discount : { type : Number }
+				},
 				subtotal : {
 					type : Number,
 					required : [true, 'Price is required.']
