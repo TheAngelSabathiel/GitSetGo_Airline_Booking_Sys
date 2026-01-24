@@ -46,6 +46,36 @@ module.exports.verify = (req, res, next) => {
     }
 };
 
+module.exports.verifyOptional = (req, res, next) => {
+
+    let token = req.headers.authorization;
+
+    if(typeof token === "undefined"){
+        req.user = null
+        return next()
+    } else {
+        token = token.slice(7, token.length);
+
+        jwt.verify(token, process.env.JWT_SECRET_KEY, function(err, decodedToken){
+            
+            if(err){
+             
+               req.user = null
+               return next()
+
+            } else {
+
+                console.log("Verified Credentials:");
+                console.log(decodedToken);
+
+                req.user = decodedToken;
+
+                next();
+            }
+        })
+    }
+};
+
 module.exports.verifyAdmin = (req, res, next) => {
     if(req.user.isAdmin){
         next();
