@@ -11,10 +11,11 @@ const codeSchema = new mongoose.Schema({
 	},
 	createdOn : {
 		type : Date,
-		default : Date.now,
-		expireAfterSeconds : 600
+		default : Date.now
 	}
 
 });
+
+codeSchema.index({ createdOn: 1 }, { expireAfterSeconds: 600 });
 
 module.exports = mongoose.model('Code', codeSchema);

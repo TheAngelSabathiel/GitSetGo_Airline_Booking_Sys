@@ -30,12 +30,12 @@ module.exports.sendCode = (req, res) => {
 	const generatedValue = genCode();
 	const newCode = new Code({
 		codeString: generatedValue,
-		email: email
+		email: req.body.email
 	});
 
 	newCode.save()
 	.then(savedCode => {
-		console.log(`Generated code for ${email}.`);
+		console.log(`Generated code for ${req.body.email}.`);
 
 		const mailOptions = {
 			from : `"Parallox Airlines" <${process.env.MAIL_EMAIL}>`,
