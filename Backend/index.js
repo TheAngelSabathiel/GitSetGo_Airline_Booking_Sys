@@ -9,19 +9,19 @@ const bookingRoutes = require("./routes/booking");
 // const scheduleRoutes = require("./routes/schedule");
 
 // const bookingRoutes = require("./routes/booking");
-const scheduleRoutes = require("./routes/schedule");
+// const scheduleRoutes = require("./routes/schedule");
 // const aircraftRoutes = require("./routes/aircraft");
-const airportRoutes = require("./routes/airport");
+// const airportRoutes = require("./routes/airport");
 // const flightSeatRoutes = require("./routes/flightSeat");
 // const fareClassRoutes = require("./routes/fareClass");
 // const ancillaryServiceRoutes = require("./routes/ancillaryService");
-const codeRoutes = require("./routes/code");
-const promoRoutes = require("./routes/promo");
+// const codeRoutes = require("./routes/code");
+// const promoRoutes = require("./routes/promo");
 
 // Google API Client
-const passport = require('passport');
-const session = require('express-session');
-require('./passport');
+// const passport = require('passport');
+// const session = require('express-session');
+// require('./passport');
 
 // Environment Setup 
 require("dotenv").config();
@@ -36,13 +36,13 @@ app.use(express.urlencoded({extended : true}));
 app.use(cors());
 
 // Google Login
-app.use(session({
-    secret: process.env.GOOGLE_clientSecret,
-    resave: false,
-    saveUninitialized: false
-}));
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(session({
+//     secret: process.env.GOOGLE_clientSecret,
+//     resave: false,
+//     saveUninitialized: false
+// }));
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 // Database Connection
 mongoose.set("runValidators", true);
@@ -59,15 +59,15 @@ app.use("/bookings", bookingRoutes);
 // app.use("/schedules", scheduleRoutes);
 
 // app.use("/bookings", bookingRoutes);
-app.use("/schedules", scheduleRoutes);
+// app.use("/schedules", scheduleRoutes);
 
 // app.use("/aircrafts", aircraftRoutes);
-app.use("/airports", airportRoutes);
+// app.use("/airports", airportRoutes);
 // app.use("/flight-seats", flightSeatRoutes);
 // app.use("/fare-classes", fareClassRoutes);
 // app.use("/ancillary-services", ancillaryServiceRoutes);
-app.use("/codes", codeRoutes);
-app.use("/promos", promoRoutes);
+// app.use("/codes", codeRoutes);
+// app.use("/promos", promoRoutes);
 
 
 

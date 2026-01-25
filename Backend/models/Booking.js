@@ -17,7 +17,7 @@ const bookingSchema = new mongoose.Schema({
         userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, 
         firstName: { type: String, required: true }, 
         lastName: { type: String, required: true },                  
-        seatId: { type: mongoose.Schema.Types.ObjectId, ref: "Seat" },
+        seatId: { type: mongoose.Schema.Types.ObjectId, ref: "FlightSeat" },
         fareClassId: { type: mongoose.Schema.Types.ObjectId, ref: "FareClass" },
         baggage: { type: Number, default: 7 },  
         subtotal: { type: Number, required: true },

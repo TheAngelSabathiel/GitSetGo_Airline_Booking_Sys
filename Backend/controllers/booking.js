@@ -1,5 +1,8 @@
 const Booking = require("../models/Booking");
 const Schedule = require("../models/Schedule");
+const Seat = require("../models/FlightSeat");
+const FareClass = require("../models/FareClass");
+const Ancillary = require("../models/AncillaryService");
 
 const { errorHandler } = require("../auth")
 
@@ -31,6 +34,7 @@ module.exports.createBooking = (req, res) => {
         if (res.headersSent) return;
 
         if (seatTaken) {
+
             return res.status(409).send({ message: "Seat is already reserved. Please choose another seat." });
         }
 
@@ -125,9 +129,18 @@ module.exports.getBookingDetails = (req, res) => {
 
     return Booking.findOne(query).sort({ createdAt: -1 })
     .populate({
-        path: ''
+        path: 'scheduleId',
+        select: 'arrivalTime departureTime',
+        populate: [
+            {path: 'arrivalAirportId', model: 'Airport', select: 'iataCode name city country'},
+            {path: 'departureAirportId', model: 'Airport', select: 'iataCode name city country'}
+        ]
     })
-
+    .populate([
+        {path: 'passengers.seatId', select: 'seatNumber'},
+        {path: 'passengers.fareClassId', select: 'code classType'},
+        {path: 'addOns.ancillaryServiceId', select: 'serviceType name description'}
+    ]).select('-__v')
     .then(result => {
 
         if(!result){
@@ -139,3 +152,41 @@ module.exports.getBookingDetails = (req, res) => {
     }).catch(error => errorHandler(error, req, res));
 }
 
+
+module.exports.getAllBooksByFlight = (req, res) => {
+
+    return Booking.find({}).sort({scheduleId: 1, createdAt: -1})
+    .populate({
+        path: 'scheduleId',
+        select: 'arrivalTime departureTime',
+        populate: [
+            {
+                 path: 'arrivalAirportId', 
+                 model: 'Airport',
+                 select: 'iataCode name city country'
+            },
+            {
+                path: 'departureAirportId',
+                model: 'Airport', 
+                select: 'iataCode name city country'
+            }
+        ]
+    })
+    .populate([
+        {path: 'passengers.seatId', select: 'seatNumber'},
+        {path: 'passengers.fareClassId', select: 'code classType baggageAllowance'},
+        {path: 'addOns.ancillaryServiceId', select: 'serviceType name price'}
+    ])
+    .select('-__v')
+
+    .then(result => {
+
+        if(!result || result.length === 0) {
+
+            return res.status(404).send({message: "Booking not found"})
+        }
+
+            return res.status(200).send({count: result.length, data: result})
+
+    }).catch(error => errorHandler(error, req, res))
+}
