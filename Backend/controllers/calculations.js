@@ -57,8 +57,8 @@ module.exports.computeMultiplierDueToDemand = (capacityEconomy, capacityBusiness
 module.exports.computeDistance = (departureCoordinates, arrivalCoordinates) => {
   const R = 6371; // Earth's radius in kilometers
 
-  const [lat1 , lon1] = departureCoordinates;
-  const [lat2 , lon2] = arrivalCoordinates;
+  const [lon1 , lat1] = departureCoordinates;
+  const [lon2 , lat2] = arrivalCoordinates;
 
   const dLat = (lat2 - lat1) * (Math.PI / 180);
   const dLon = (lon2 - lon1) * (Math.PI / 180);
