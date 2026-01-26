@@ -118,7 +118,7 @@ module.exports.getScheduleDetails = (req, res) => {
             return res.status(404).send({message : "Schedule not found"});
         }
 
-        return res.status(200).send(schedul);
+        return res.status(200).send(schedule);
     })
     .catch(error => errorHandler(error, req, res));
 }
