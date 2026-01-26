@@ -1,6 +1,7 @@
 const Schedule = require('../models/Schedule');
 const Aircraft = require('../models/Aircraft');
 const { errorHandler } = require("../auth");
+const calculations = require("./calculations");
 
 module.exports.createSchedule = (req, res) => {
     if (req.body.departureAirportId === req.body.arrivalAirportId) {
@@ -142,11 +143,21 @@ module.exports.searchFlights = (req, res) => {
         .populate('departureAirportId', 'name iataCode city country location')
         .populate('arrivalAirportId', 'name iataCode city country location')
         .sort({ departureTime: 1 })
+        .lean()
     .then(schedules => {
+        
+        schedules.map(schedule => {
+            const multiplierDueToDate = calculations.computeMultiplierDueToDate(schedule.departureTime);
+            const multiplierDueToDemand = calculations.computeMultiplierDueToDemand(schedule.aircraftId.capacityEconomy, schedule.aircraftId.capacityBusiness, schedule.availableEconomy, schedule.availableBusiness);
+            const distance = calculations.computeDistance(schedule.departureAirportId.location, schedule.arrivalAirportId.location);
+            const travelTime = calculations.computeTravelTime(schedule.departureTime, schedule.arrivalTime);
+            schedule.estimatedPrice = calculations.computeFlightPrice(schedule.aircraftId.price, distance, travelTime, "Economy", multiplierDueToDate, multiplierDueToDemand);
+        });
+        
         return res.status(200).send({ 
                 success: true, 
                 count: schedules.length, 
-                data: schedules 
+                data: schedules
                 });
     })
     .catch(error => errorHandler(error, req, res));
