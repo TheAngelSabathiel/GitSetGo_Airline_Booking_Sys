@@ -8,7 +8,7 @@ const bookingSchema = new mongoose.Schema({
     			},
     			seatId: {
         			type : mongoose.Schema.Types.ObjectId,
-        			ref : "Seat"
+        			ref : "FlightSeat"
     			},
 				baggage : {
 					type : Number,
