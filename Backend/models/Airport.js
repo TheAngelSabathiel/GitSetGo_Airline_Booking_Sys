@@ -32,7 +32,7 @@ const airportSchema = new mongoose.Schema({
       		default: 'Point'
     	},
     	coordinates: {
-      		type: [Number], // [Latitude, Longitude]
+      		type: [Number], // [Longitude, Latitude] geojson standard
       		required: true
     	}
   	},
