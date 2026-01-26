@@ -1,70 +1,130 @@
 const Aircraft = require('../models/Aircraft');
+const { errorHandler } = require("../auth");
 
-// @desc    Register a new aircraft
-// @route   POST /api/aircraft
-exports.createAircraft = async (req, res) => {
-    try {
-        const aircraft = await Aircraft.create(req.body);
-        res.status(201).json({ success: true, data: aircraft });
-    } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
-    }
-};
+module.exports.createAircraft = (req, res) => {
+    Aircraft.findOne({model : req.body.model})
+    .then(aircraft => {
+        if (aircraft) {
 
-// @desc    Get all aircraft
-// @route   GET /api/aircraft
-exports.getAllAircraft = async (req, res) => {
-    try {
-        const aircrafts = await Aircraft.find();
-        res.status(200).json({ success: true, count: aircrafts.length, data: aircrafts });
-    } catch (error) {
-        res.status(500).json({ success: false, message: 'Server Error' });
-    }
-};
-
-// @desc    Get single aircraft by ID
-// @route   GET /api/aircraft/:id
-exports.getAircraftById = async (req, res) => {
-    try {
-        const aircraft = await Aircraft.findById(req.params.id);
-        if (!aircraft) {
-            return res.status(404).json({ success: false, message: 'Aircraft not found' });
+            res.status(400).send({ 
+                success: false, 
+                message: "Aircraft already exists" 
+            });
+            return null;
         }
-        res.status(200).json({ success: true, data: aircraft });
-    } catch (error) {
-        res.status(400).json({ success: false, message: 'Invalid ID format' });
-    }
-};
 
-// @desc    Update aircraft details
-// @route   PUT /api/aircraft/:id
-exports.updateAircraft = async (req, res) => {
-    try {
-        const aircraft = await Aircraft.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
-            runValidators: true
+        const newAircraft = new Aircraft({
+            model : req.body.model,
+            capacityEconomy : req.body.capacityEconomy,
+            capacityBusiness : req.body.capacityBusiness,
+            price : req.body.price
         });
-        if (!aircraft) {
-            return res.status(404).json({ success: false, message: 'Aircraft not found' });
-        }
-        res.status(200).json({ success: true, data: aircraft });
-    } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
-    }
-};
 
-// @desc    Soft delete (Deactivate) aircraft
-// @route   DELETE /api/aircraft/:id
-exports.deleteAircraft = async (req, res) => {
-    try {
-        // Instead of hard deleting, we usually set isActive to false for airline records
-        const aircraft = await Aircraft.findByIdAndUpdate(req.params.id, { isActive: false }, { new: true });
-        
-        if (!aircraft) {
-            return res.status(404).json({ success: false, message: 'Aircraft not found' });
+        return newAircraft.save();
+    })
+    .then(savedAircraft => {
+
+        if (savedAircraft == null) {
+            return;
         }
-        res.status(200).json({ success: true, message: 'Aircraft deactivated successfully' });
-    } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
-    }
-};
+
+        return res.status(201).send({
+            success : true,
+            message : "Aircraft registered successfully",
+            data : savedAircraft
+        });
+    })
+    .catch(error => errorHandler(error, req, res));
+}
+
+module.exports.updateAircraft = (req, res) => {
+
+    const allowableFields = ["capacityEconomy", "capacityBusiness", "price"];
+
+    let query = {};
+    allowableFields.forEach(field => {
+        query[field] = req.body[field]
+    });
+
+    Aircraft.findByIdAndUpdate(req.params.aircraftId, query, {extended : true});
+    .then(aircraft => {
+        if (!aircraft) {
+            return res.status(404).send({
+                error : "Aircraft not found"
+            });
+        }
+
+        return res.status(200).send({
+            success : true, 
+            message : "Aircraft updated successfully",
+            data : aircraft
+        });
+    })
+    .catch(error => errorHandler(error, req, res));
+}
+
+module.exports.getAircraftInfo = (req, res) => {
+    Aircraft.findById(req.params.aircraftId)
+    .then(aircraft => {
+        if (!aircraft) {
+            return res.status(404).send({
+                error : "Aircraft not found"
+            });
+        }
+
+        return res.status(200).send(aircraft);
+    })
+    .catch(error => errorHandler(error, req, res));
+}
+
+module.exports.getAllActiveAircrafts = (req, res) => {
+    Aircraft.find({isActive : true})
+    .then(aircrafts => {
+        if (aircrafts.length === 0) {
+            return res.status(404).send({
+                error : "No active aircrafts"
+            });
+        }
+
+        return res.status(200).send(aircrafts);
+    })
+    .catch(error => errorHandler(error, req, res));
+}
+
+module.exports.getAllAircrafts = (req, res) => {
+    Aircraft.find()
+    .then(aircrafts => {
+        if (aircrafts.length === 0) {
+            return res.status(404).send({
+                error : "No aircrafts registered"
+            });
+        }
+
+        return res.status(200).send(aircrafts);
+    })
+    .catch(error => errorHandler(error, req, res));
+}
+
+module.exports.toggleAircraftStatus = (req, res) => {
+    Aircraft.findById(req.params.id)
+    .then(aircraft => {
+        if (!aircraft) {
+            res.status(404).send({
+                error : "Aircraft not found"
+            });
+            return null;
+        }
+
+        aircraft.isActive = !aircraft.isActive;
+        return aircraft.save();
+    })
+    .then(savedAircraft => {
+        if (savedAircraft == null) return;
+
+        return res.status(200).send({
+            success : true,
+            message :  `Aircraft is now ${savedAircraft.isActive ? 'Active' : 'Inactive'}`
+        })
+    })
+    .catch(error => errorHandler(error, req, res));
+}

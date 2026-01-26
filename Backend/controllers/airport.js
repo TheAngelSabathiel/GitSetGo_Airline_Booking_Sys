@@ -132,7 +132,7 @@ module.exports.toggleAirportStatus = (req, res) => {
 
         return res.status(200).send({
             success : true,
-            message :  `Airport is now ${airport.isActive ? 'Active' : 'Inactive'}`
+            message :  `Airport is now ${savedAirport.isActive ? 'Active' : 'Inactive'}`
         })
     })
     .catch(error => errorHandler(error, req, res));
