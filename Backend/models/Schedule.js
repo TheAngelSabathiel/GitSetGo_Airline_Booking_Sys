@@ -33,7 +33,7 @@ const scheduleSchema = new mongoose.Schema({
     },
     status : {
     	type : String,
-    	enum : ["Active", "Delayed", "Cancelled", "Finished"],
+    	enum : ["Active", "Delayed", "Cancelled", "Completed"],
     	default : "Active"
     }
 });

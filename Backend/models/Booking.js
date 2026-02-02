@@ -23,7 +23,7 @@ const bookingSchema = new mongoose.Schema({
         subtotal: { type: Number, required: true },
         status: {
             type: String,
-            enum: ["Pending", "Booked", "Cancelled", "Checked-In"],
+            enum: ["Pending", "Confirmed", "Cancelled", "Checked-In"],
             default: "Pending"
         }
     }],
@@ -40,7 +40,7 @@ const bookingSchema = new mongoose.Schema({
     totalPrice: { type: Number, required: true },
     expiresAt: { 
         type: Date
-        // default: () => new Date(Date.now() + 30 * 60 * 1000),
+        // default: () => new Date(Date.now() + 15 * 60 * 1000),
         // index: { expires: 0 } 
     }
 

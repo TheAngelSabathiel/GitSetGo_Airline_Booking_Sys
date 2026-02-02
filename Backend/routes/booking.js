@@ -10,8 +10,16 @@ router.post("/",verifyOptional, bookingController.createBooking);
 
 router.patch("/check-in",verifyOptional, bookingController.passengerCheckIn);
 
+router.get("/bookingDetails", verifyOptional, bookingController.getBookingDetails);
+
+router.get("/bookings-by-flight", verify, verifyAdmin, bookingController.getAllBooksByFlight);
+
+router.get("/history", verify, bookingController.getFlightHistory);
+
+router.get("/upcomming", verify, bookingController.getUpcommingFlight);
+
 router.patch("/:bookingId/update-info", verify, bookingController.updateBooking);
 
-router.get("/bookingDetails", verifyOptional, bookingController.getBookingDetails);
+router.patch('/:bookingReference/payment', bookingController.updatePaymentStatus);
 
 module.exports = router;

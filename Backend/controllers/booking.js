@@ -6,9 +6,11 @@ const Ancillary = require("../models/AncillaryService");
 
 const { errorHandler } = require("../auth")
 
+// Price = BaseFee + (Distance \times RatePerKm) + (Duration \times OperationalCostPerHour) + ancillaryFees
+
 module.exports.createBooking = (req, res) => {
 
-    const { scheduleId, passengers, addOns, paymentDetails, totalPrice } = req.body;
+    const { scheduleId, passengers, addOns, paymentDetails } = req.body;
 
     const bookerId = req.user ? req.user.id : null;
 
@@ -45,8 +47,7 @@ module.exports.createBooking = (req, res) => {
             scheduleId: scheduleId,
             passengers: updatedPassengers,
             addOns: addOns,
-            paymentDetails: {...paymentDetails, status: "Pending"},
-            totalPrice: totalPrice
+            paymentDetails: {...paymentDetails, status: "Pending"}
         });
 
         return newBooking.save();
@@ -189,4 +190,140 @@ module.exports.getAllBooksByFlight = (req, res) => {
             return res.status(200).send({count: result.length, data: result})
 
     }).catch(error => errorHandler(error, req, res))
+}
+
+module.exports.getFlightHistory = (req, res) => {
+
+    return Booking.find({'passengers.userId':req.user.id}).sort({createdAt: -1})
+    .populate({path: 'scheduleId',
+        select: 'flightReference arrivalTime departureTime status',
+        match: {status: {$in: ["Completed", "Cancelled"]}},
+        populate: [
+            {path: 'arrivalAirportId', model: 'Airport', select: 'iataCode name city country'},
+            {path: 'departureAirportId', model: 'Airport', select: 'iataCode name city country'}
+        ]
+    })  
+    .populate([
+        {path: 'passengers.seatId', select: 'seatNumber'},
+        {path: 'passengers.fareClassId', select: 'classType'}
+
+    ]).select('-passengers.userId -passengers.baggage -passengers.subtotal -totalPrice -__v')
+
+    .then(result => {
+
+        const history = result.filter(r => r.scheduleId !== null);
+
+        if(history.length === 0) {
+
+            return res.status(404).send({ message: "No past or cancelled trips found." });
+        }
+
+        res.status(200).send({data: history});
+
+    }).catch(error => errorHandler(error, req, res));
+}
+
+module.exports.getUpcommingFlight = (req, res) => {
+
+    return Booking.find({'passengers.userId':req.user.id}).sort({createdAt: -1})
+    .populate({path: 'scheduleId',
+        select: 'flightReference arrivalTime departureTime status',
+        match: {
+
+            status: {$in: ["Active", "Delayed"]},
+            departureTime: {$gte: Date.now()}
+        },
+        populate: [
+            {path: 'arrivalAirportId', model: 'Airport', select: 'iataCode name city country'},
+            {path: 'departureAirportId', model: 'Airport', select: 'iataCode name city country'}
+        ]
+    })  
+    .populate([
+        {path: 'passengers.seatId', select: 'seatNumber'},
+        {path: 'passengers.fareClassId', select: 'classType'}
+
+    ]).select('-passengers.userId -passengers.baggage -passengers.subtotal -totalPrice -__v')
+
+    .then(result => {
+
+        const upcomming = result.filter(r => r.scheduleId !== null);
+
+        if(upcomming.length === 0) {
+
+            return res.status(404).send({ message: "No upcomming or delayed trips found." });
+        }
+
+        res.status(200).send({data: upcomming});
+
+    }).catch(error => errorHandler(error, req, res));
+}
+
+module.exports.updatePaymentStatus = (req, res) => {
+
+    const { bookingReference } = req.params;
+    const { paymentStatus } = req.body;
+
+    if(!paymentStatus){
+
+        return res.status(400).send({message: "Payment status is required"});
+    }
+
+    const validStatuses = ["Confirmed", "Failed"];
+    
+    if (!validStatuses.includes(paymentStatus)) {
+        return res.status(400).send({ 
+            message: "Invalid payment status. Must be 'Confirmed' or 'Failed'" 
+        });
+    }
+
+    return Booking.findOne({bookingReference: bookingReference})
+    .then(booking => {
+
+        if (res.headersSent) return;
+
+        if(!booking){
+            return res.status(404).send({message: "Booking not found"})
+        }
+
+        if(booking.paymentDetails.status !== "Pending") {
+
+            return res.status(400).send({
+                message: `Payment status is already ${booking.paymentDetails.status}`
+            })
+        }
+
+        if (booking.expiresAt && new Date() > booking.expiresAt) {
+            return res.status(400).send({ 
+                message: "Booking has expired. Cannot process payment." 
+            });
+        }
+
+        booking.paymentDetails.status = paymentStatus;
+
+        if (paymentStatus === "Confirmed") {
+   
+            booking.passengers.forEach(passenger => {
+                passenger.status = "Confirmed";
+            });
+
+            booking.expiresAt = null;
+
+        }else if(paymentStatus === "Failed") {
+
+            booking.expiresAt = new Date();
+        }
+        
+        return booking.save();  
+
+    })
+    .then(result => {
+
+        if (res.headersSent || !result) return;
+
+        return res.status(200).send({
+            message: `Payment ${paymentStatus.toLowerCase()} successfully`, 
+            data: result
+        })         
+    })
+    .catch(error => errorHandler(error, req, res));
 }
