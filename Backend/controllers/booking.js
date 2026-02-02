@@ -77,36 +77,120 @@ module.exports.updateBooking = (req, res) => {
     }).catch(error => errorHandler(error, req, res));
 }
 
+
 module.exports.passengerCheckIn = (req, res) => {
 
-    const {bookingReference, lastName} = req.body
+    const { bookingReference, firstName, lastName, email } = req.body;
+    
+    if (!bookingReference) {
 
-    return Booking.findOneAndUpdate(
-        {
-            bookingReference: bookingReference,
-            "passengers.lastName": lastName
-        },
-        {
-            $set: {"passengers.$.status": "Checked-In"}
-        }, {
-            new: true,
-            projection: {
-               passengers: {$elemMatch: {"lastName": lastName}},
-               _id: 0
+        return res.status(400).send({ message: "Booking reference is required" });
+    }
+    
+    const hasFullName = firstName && lastName;
+    const hasEmail = email;
+    
+    if (!hasFullName && !hasEmail) {
+
+        return res.status(400).send({ 
+            message: "Please provide either your full name (first and last) or email address" 
+        });
+    }
+    
+    return Booking.findOne({ bookingReference: bookingReference.trim().toUpperCase() })
+        .then(booking => {
+
+            if (!booking) {
+
+                return res.status(404).send({ 
+                    message: "No booking found. Please verify your reference code." 
+                });
             }
-        }
-    )
-    .then(result => {
+            
+            if (booking.paymentDetails.status !== "Confirmed") {
 
-        if(!result || !result.passengers){
+                return res.status(400).send({
+                    message: `Cannot check-in. Payment status is ${booking.paymentDetails.status}.`
+                });
+            }
+            
+            if (booking.expiresAt && new Date() > booking.expiresAt) {
+                
+                return res.status(400).send({ 
+                    message: "Cannot check-in. The booking has expired." 
+                });
+            }
+            
+            let passenger;
 
-            return res.status(404).send({message: "Check-In failed. Please verify your Reference, Lastname"});
-        }
+            if (firstName && lastName) {
 
-        return res.status(200).send({message: "Check-In success! Welcome aboard!.", data: result.passengers[0]});
+                passenger = booking.passengers.find(
+                    p => p.firstName.toLowerCase() === firstName.trim().toLowerCase() && 
+                         p.lastName.toLowerCase() === lastName.trim().toLowerCase());
 
-    }).catch(error => errorHandler(error, req, res))
-}
+            } else if (email) {
+
+                passenger = booking.passengers.find(
+                    p => p.email && p.email.toLowerCase() === email.trim().toLowerCase()
+                );
+            }
+            
+            if (!passenger) {
+
+                return res.status(404).send({
+                    message: firstName && lastName 
+                        ? "Passenger not found. Please verify your full name."
+                        : "Passenger not found. Please verify your email."
+                });
+            }
+            
+            if (passenger.status === "Checked-In") {
+
+                return res.status(400).send({ 
+                    message: "You have already checked in for this flight.",
+                    data: passenger
+                });
+            }
+            
+            if (passenger.status === "Cancelled") {
+
+                return res.status(400).send({ 
+                    message: "Cannot check-in. This booking has been cancelled." 
+                });
+            }
+
+            passenger.status = "Checked-In";
+            return booking.save();
+        })
+        .then(result => {
+
+            if (res.headersSent || !result) return;
+            
+            let checkedInPassenger;
+
+            if (firstName && lastName) {
+
+                checkedInPassenger = result.passengers.find(
+                    p => p.firstName.toLowerCase() === firstName.trim().toLowerCase() &&
+                         p.lastName.toLowerCase() === lastName.trim().toLowerCase());
+
+            } else if (email) {
+
+                checkedInPassenger = result.passengers.find(
+                    p => p.email && p.email.toLowerCase() === email.trim().toLowerCase()
+                );
+            }
+            
+            return res.status(200).send({ 
+
+                message: "Check-in successful! Welcome aboard!", 
+                data: checkedInPassenger
+            });
+        })
+        .catch(error => errorHandler(error, req, res));
+};
+
 
 module.exports.getBookingDetails = (req, res) => {
 
@@ -148,7 +232,13 @@ module.exports.getBookingDetails = (req, res) => {
             return res.status(404).send({message: "Booking not found"})
         }
 
-        return res.status(200).send({data: result})
+        const isExpired = result.expiresAt && new Date() > result.expiresAt;
+
+        return res.status(200).send({
+            data: result,
+            expired: isExpired,
+            message: isExpired ? "This booking has expired" : "Booking found"
+        })
 
     }).catch(error => errorHandler(error, req, res));
 }
@@ -269,7 +359,7 @@ module.exports.updatePaymentStatus = (req, res) => {
     }
 
     const validStatuses = ["Confirmed", "Failed"];
-    
+
     if (!validStatuses.includes(paymentStatus)) {
         return res.status(400).send({ 
             message: "Invalid payment status. Must be 'Confirmed' or 'Failed'" 
